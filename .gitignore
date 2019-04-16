@@ -1,0 +1,5 @@
+# Created by .ignore support plugin (hsz.mobi)
+.vscode
+__MACOSX/
+dist/
+node_modules
