@@ -85,14 +85,14 @@
                     </el-date-picker>
                 </el-form-item>
               </el-col>
-              <el-col :span="9">
+              <el-col :span="6">
                 <div class="di">
                   <div class="wrapper">
                     <el-button type="primary" plain @click="search()" size="mini">
                       导出报表</el-button>
-                    <el-button type="primary" plain @click="resetForm('searchform')" size="mini">
+                    <!-- <el-button type="primary" plain @click="resetForm('searchform')" size="mini">
                       导出当日报表
-                    </el-button>
+                    </el-button> -->
                     <el-button type="primary" plain @click="resetForm('searchform')" size="mini">
                       重置
                     </el-button>

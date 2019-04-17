@@ -97,9 +97,9 @@
               <router-link to="/biaogeguanli/caiwubaobiao">
                 <el-menu-item index="5-1">财务报表</el-menu-item>
               </router-link>
-              <!-- <router-link to="/biaogeguanli/shujubaobiao">
+              <router-link to="/biaogeguanli/shujubaobiao">
                 <el-menu-item index="5-2">数据报表</el-menu-item>
-              </router-link> -->
+              </router-link>
             </el-menu-item-group>
           </el-submenu>
 
