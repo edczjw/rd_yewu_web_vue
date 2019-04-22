@@ -90,6 +90,14 @@ export default new Router({
             auth: true
           }
         },{
+          // 数据监控
+          path: '/shujujiankong/yuejiankong',
+          name: '余额监控',
+          component: require('../views/shujujiankong/yuejiankong.vue').default,
+          meta: {
+            auth: true
+          }
+        },{
           // 对账审核
           path: '/duizhangshenhe/tiqianjieqing',
           name: '提前结清',

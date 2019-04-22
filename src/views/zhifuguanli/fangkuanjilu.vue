@@ -427,7 +427,7 @@ created() {
                     } else {
                         let elink = document.createElement('a');
                         elink.download = filename+'_'+this.getdate()+".xls";
-                        console.log(this.getdate())
+                        // console.log(this.getdate())
                         elink.style.display = 'none';
                         elink.href = URL.createObjectURL(blob);
                         document.body.appendChild(elink);

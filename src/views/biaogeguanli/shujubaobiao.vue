@@ -88,8 +88,8 @@
               <el-col :span="6">
                 <div class="di">
                   <div class="wrapper">
-                    <el-button type="primary" plain @click="search()" size="mini">
-                      导出报表</el-button>
+                    <el-button type="primary" plain @click="outputdaylist('日报表')" size="mini">
+                      导出日报表</el-button>
                     <!-- <el-button type="primary" plain @click="resetForm('searchform')" size="mini">
                       导出当日报表
                     </el-button> -->
@@ -129,7 +129,7 @@
                       v-model="dbform.beginDate"
                       value-format="yyyy-MM-dd"
                       type="date"
-                      placeholder="开始日期">
+                      placeholder="格式：yyyy-MM-01">
                     </el-date-picker>
                 </el-form-item>
               </el-col>
@@ -139,15 +139,15 @@
                       v-model="dbform.endDate"
                       value-format="yyyy-MM-dd"
                       type="date"
-                      placeholder="结束日期">
+                      placeholder="格式：yyyy-MM-01">
                     </el-date-picker>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <div class="di">
                   <div class="wrapper">
-                    <el-button type="primary" plain @click="search()" size="mini">
-                      导出报表</el-button>
+                    <el-button type="primary" plain @click="outputmonthlist('月报表')" size="mini">
+                      导出月报表</el-button>
                     <el-button type="primary" plain @click="resetForm('dbform')" size="mini">
                       重置
                     </el-button>
@@ -208,6 +208,90 @@ export default {
   },
 
   methods: {
+    //导出月统计报表
+    outputmonthlist(filename){
+      const url = this.$store.state.domain +"/loanManage/reportFormMonthExport";
+                this.$http.post(url, this.dbform , {
+                    responseType: 'blob'
+                }).then(res => {
+                  // 成功
+                    this.$message({
+                      message: '月统计报表下载成功！',
+                      type: "success"
+                    });
+                    let blob = new Blob([res.data], {
+                        type: 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                    })
+                    if (window.navigator.msSaveOrOpenBlob) {
+                        navigator.msSaveBlob(blob);
+                    } else {
+                        let elink = document.createElement('a');
+                        elink.download = filename+'_'+this.getdate()+".xls";
+                        // console.log(this.getdate())
+                        elink.style.display = 'none';
+                        elink.href = URL.createObjectURL(blob);
+                        document.body.appendChild(elink);
+                        elink.click();
+                        document.body.removeChild(elink);
+                    }
+
+                }).catch(err => {
+                  // 异常
+                    this.$message({
+                      message: err.body.message,
+                      type: "error"
+                    });
+                    // console.warn(err);
+                });
+    },
+
+
+    // 导出日报表
+    outputdaylist(filename){
+      const url = this.$store.state.domain +"/loanManage/reportFormDayExport";
+                this.$http.post(url, this.searchform , {
+                    responseType: 'blob'
+                }).then(res => {
+                  // 成功
+                    this.$message({
+                      message: '日统计报表下载成功！',
+                      type: "success"
+                    });
+                    let blob = new Blob([res.data], {
+                        type: 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                    })
+                    if (window.navigator.msSaveOrOpenBlob) {
+                        navigator.msSaveBlob(blob);
+                    } else {
+                        let elink = document.createElement('a');
+                        elink.download = filename+'_'+this.getdate()+".xls";
+                        // console.log(this.getdate())
+                        elink.style.display = 'none';
+                        elink.href = URL.createObjectURL(blob);
+                        document.body.appendChild(elink);
+                        elink.click();
+                        document.body.removeChild(elink);
+                    }
+
+                }).catch(err => {
+                  // 异常
+                    this.$message({
+                      message: err.body.message,
+                      type: "error"
+                    });
+                    // console.warn(err);
+                });
+    },
+
+    //获取时间戳
+    getdate() {
+          var now = new Date(),
+              y = now.getFullYear(),
+              m = now.getMonth() + 1,
+              d = now.getDate();
+          return y + "-" + (m < 10 ? "0" + m : m) + "-" + (d < 10 ? "0" + d : d);
+      },
+
     //返回上一页
     lastpage(){
       window.history.go(-1);
@@ -288,11 +372,6 @@ export default {
             // console.log(response);
           }
         );
-      },
-
-    
-      // 搜索功能
-      search() {
       },
 
       // 重置功能

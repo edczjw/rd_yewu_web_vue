@@ -40,7 +40,7 @@ export default {
       //返回顶部
       var htop= document.documentElement.scrollTop;//获取滚动高度
       var dtops=document.getElementsByClassName('gotop')[0];//获取图标
-      console.log(dtops.style.display);
+      // console.log(dtops.style.display);
       //判断滚动条滚动长度
       if(htop > 350) {
          dtops.style.display="block";
