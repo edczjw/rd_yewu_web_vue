@@ -52,7 +52,7 @@
             <el-row :gutter="30">
               <el-col :span="6">
                   <el-form-item label="渠道" prop="channelCd">
-                    <el-select v-model="searchform.channelCd" multiple placeholder="请选择渠道" clearable>
+                    <el-select v-model="searchform.channelCd" multiple placeholder="请选择渠道" collapse-tags @change="selchange">
                     <el-option v-for="item in channellist"
                         :key="item.channelCode"
                         :label="item.channelCode"
@@ -84,30 +84,17 @@
           element-loading-spinner="el-icon-loading"
           element-loading-background="rgba(0, 0, 0, 0.8)"
           style="width: 100%; height:100%;">
-            <el-table-column prop="channelCode" label="渠道" align="center">
+            <el-table-column prop="channelCd" label="渠道" align="center">
             </el-table-column>
-            <el-table-column prop="productCode" label="产品" align="center">
+            <el-table-column prop="productCd" label="产品" align="center">
             </el-table-column>
-            <el-table-column prop="preApproveMoney" label="账户" align="center">
+            <el-table-column prop="merchant_id" label="账户" align="center">
             </el-table-column>
-            <el-table-column prop="preApproveTerm" label="账户名称" align="center">
+            <el-table-column prop="pay_name" label="账户名称" align="center">
             </el-table-column>
-            <el-table-column prop="preApproveMonthRate" label="实时余额" align="center">
+            <el-table-column prop="valid_Amount" label="实时余额" align="center">
             </el-table-column>
           </el-table>
-      <!-- 分页 -->
-          <div class="block">
-            <el-pagination background style="text-align:center" 
-            @size-change="handleSizeChange" 
-            @current-change="handleCurrentChange" 
-            :current-page="this.searchform.pageIndex"
-             :page-sizes="[20,50,100]"  
-             :page-size="this.searchform.pageSize" 
-             layout="total, sizes, prev, pager, next" 
-             :total="count"><!--这是显示总共有多少数据-->
-            </el-pagination>
-          
-          </div>
 </div>
   </div>
 </template>
@@ -124,10 +111,8 @@ export default {
       isFullscreen: false,
       userName: "",
       statuss: "none",
-      count:0,//总信息数
+      oldOptions: [],
       listLoading: false,//加载样式
-      pageIndex:1,//初始页
-      pageSize: 50,//显示当前行的条数
 
       //渠道数据容器
       channellist:[],
@@ -136,9 +121,8 @@ export default {
       tableData: [],
 
       searchform: {
-        channelCd: "",//进件渠道
-        pageIndex:1,//初始页
-        pageSize: 50,//显示当前行的条数
+        channelCd: '',//进件渠道
+        productCd:'',
       }
     };
   },
@@ -156,11 +140,44 @@ export default {
             }
           }
 
-    this.getlist();//获取用户列表
+    // this.getlist();//获取用户列表
     
   },
 
   methods: {
+    //全选设置
+    selchange(val){
+      let allValues = []
+        //保留所有值
+        for (let item of this.channellist) {
+            allValues.push(item.channelCode)
+        }
+
+        // 用来储存上一次的值，可以进行对比
+        const oldVal = this.oldOptions.length === 0 ? [] : this.oldOptions[1]
+
+        // 若是全部选择
+        if (val.includes('全部产品')) this.searchform.channelCd = allValues 
+
+        // 取消全部选中  上次有 当前没有 表示取消全选
+        if (oldVal.includes('全部产品') && !val.includes('全部产品')) this.searchform.channelCd = []
+
+        // 点击非全部选中  需要排除全部选中 以及 当前点击的选项 
+        // 新老数据都有全部选中 
+        if (oldVal.includes('全部产品') && val.includes('全部产品')) {
+            const index = val.indexOf('全部产品')
+            val.splice(index, 1) // 排除全选选项
+            this.searchform.channelCd = val
+        }
+
+        //全选未选 但是其他选项全部选上 则全选选上 上次和当前 都没有全选
+        if (!oldVal.includes('全部产品') && !val.includes('全部产品')) {
+            if (val.length === allValues.length - 1) this.searchform.channelCd = ['全部产品'].concat(val)
+        }
+
+        //储存当前最后的结果 作为下次的老数据 
+        this.oldOptions[1] = this.searchform.channelCd
+    },
     
     //获取用户名，vue 本地存储数据 sessionStorage
       getName() {
@@ -228,7 +245,13 @@ export default {
           //成功
           response => {
             if (response.data.code == 0) { 
-                this.channellist = response.data.detail.result;
+                //添加全选功能
+                this.channellist.push({channelCode: '全部产品'});
+
+                for(var i=0;i<(response.data.detail.result).length;i++){
+
+                  this.channellist.push((response.data.detail.result)[i]);
+                }
             } 
             //失败
             else {
@@ -253,7 +276,6 @@ export default {
       // 重置功能
       resetForm(formName) {
         this.$refs[formName].resetFields();
-        this.productlist="";
         // this.getlist();
       },
 
@@ -274,10 +296,28 @@ export default {
 
       // ajax异步数据交互：Vue 实例提供了 this.$http 服务可用于发送 HTTP 请求
       getlist() {
+
+        //去除全部字段
+      const index = this.searchform.channelCd.indexOf('全部产品')
+
+      //必须要进行判断
+      if(index!=-1){
+        this.searchform.channelCd.splice(index, 1) // 排除全选选项
+      }
+
+        //去掉中括号
+        var str=this.searchform.channelCd
+        var spr=str.toString().replace(/\[|]/g,'');
+        console.log(spr)
+        let data={
+          channelCd:spr,
+          productCd:""
+        }
+
         this.listLoading=true
         this.$http
           .post(
-            this.$store.state.domain +"/loanManage/caseList",this.searchform 
+            this.$store.state.domain +"/MonitorFile/monitorList",data
           )
           //then()方法异步执行，就是当then()前面的方法执行完之后再执行then()里面的方法，这样就不会发生获取不到数据的问题
           .then(  
@@ -285,13 +325,10 @@ export default {
             response => {
               if (response.data.code == 0) {
                 //请求成功回调函数
-                this.tableData = response.data.detail.result.pageList;
-                this.pageSize= response.data.detail.result.pageSize;
-                this.pageIndex=response.data.detail.result.pageIndex;
-                this.count= response.data.detail.result.count;
+                this.tableData = response.data.detail.result;
+                // console.log(this.tableData)
                 this.listLoading=false;
-
-                if(this.tableData==null)
+                if(this.tableData==null || this.tableData=="")
                 {
                   this.$notify({
                     message: '搜索失败，无此数据，请重新搜索。',
@@ -301,11 +338,12 @@ export default {
                 }
               } else {
               //请求失败回调函数
-                // this.listLoading=false;
-                // this.$message({
-                //     message: response.message,
-                //     type: "error"
-                //   });
+                this.listLoading=false;
+                this.$message({
+                    message: response.data.msg,
+                    type: "error"
+                  });
+                
               }
               
             },

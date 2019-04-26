@@ -56,7 +56,7 @@
             <el-row :gutter="30">
               <el-col :span="6">
                   <el-form-item label="产品" prop="channelCd">
-                    <el-select v-model="searchform.channelCd" multiple placeholder="请选择产品">
+                    <el-select v-model="searchform.channelCd" multiple collapse-tags placeholder="请选择产品" @change="changeSelectDay">
                     <el-option v-for="item in channellist"
                         :key="item.channelCode"
                         :label="item.channelCode"
@@ -114,7 +114,7 @@
             <el-row :gutter="30">
               <el-col :span="6">
                   <el-form-item label="产品" prop="channelCd">
-                    <el-select v-model="dbform.channelCd" multiple placeholder="请选择产品">
+                    <el-select v-model="dbform.channelCd"  @change="changeSelectMonth" multiple collapse-tags placeholder="请选择产品">
                     <el-option v-for="item in channellist"
                         :key="item.channelCode"
                         :label="item.channelCode"
@@ -127,9 +127,9 @@
                 <el-form-item label="案件日期" prop="beginDate">
                     <el-date-picker class="shi"
                       v-model="dbform.beginDate"
-                      value-format="yyyy-MM-dd"
+                      value-format="yyyy-MM-01"
                       type="date"
-                      placeholder="格式：yyyy-MM-01">
+                      placeholder="开始日期">
                     </el-date-picker>
                 </el-form-item>
               </el-col>
@@ -137,9 +137,9 @@
                 <el-form-item label="至" prop="endDate">
                   <el-date-picker class="shi"
                       v-model="dbform.endDate"
-                      value-format="yyyy-MM-dd"
+                      value-format="yyyy-MM-01"
                       type="date"
-                      placeholder="格式：yyyy-MM-01">
+                      placeholder="结束日期">
                     </el-date-picker>
                 </el-form-item>
               </el-col>
@@ -158,6 +158,9 @@
           </el-form>
         </div>
 </div>
+
+<!-- 小猪佩奇 -->
+<img src="http://dingyue.nosdn.127.net/Y0b2B9MCCaqZBGTEhdix78AECPqwFsEiezuc0kwhYeDxL1536463553265.jpeg"/>
   </div>
 </template>
 <script>
@@ -171,17 +174,21 @@ export default {
   data() {
     return {
       isFullscreen: false,
+      oldOption: [],//日报
+      oldOptions: [],//月报
       userName: "",
 
       //渠道数据容器
       channellist:[],
 
+      //日报表
       searchform: {
         channelCd: "",//进件渠道
         beginDate: "",//开始时间
         endDate: "",//至
       },
 
+      //月报表
       dbform:{
         channelCd: "",//进件渠道
         beginDate: "",//开始时间
@@ -208,8 +215,93 @@ export default {
   },
 
   methods: {
+    //日报表全选设置
+    changeSelectDay(val){
+      let allValues = []
+        //保留所有值
+        for (let item of this.channellist) {
+            allValues.push(item.channelCode)
+        }
+
+        // 用来储存上一次的值，可以进行对比
+        const oldVal = this.oldOption.length === 0 ? [] : this.oldOption[1]
+
+        // 若是全部选择
+        if (val.includes('全部产品')) this.searchform.channelCd = allValues 
+
+        // 取消全部选中  上次有 当前没有 表示取消全选
+        if (oldVal.includes('全部产品') && !val.includes('全部产品')) this.searchform.channelCd = []
+
+        // 点击非全部选中  需要排除全部选中 以及 当前点击的选项 
+        // 新老数据都有全部选中 
+        if (oldVal.includes('全部产品') && val.includes('全部产品')) {
+            const index = val.indexOf('全部产品')
+            val.splice(index, 1) // 排除全选选项
+            this.searchform.channelCd = val
+        }
+
+        //全选未选 但是其他选项全部选上 则全选选上 上次和当前 都没有全选
+        if (!oldVal.includes('全部产品') && !val.includes('全部产品')) {
+            if (val.length === allValues.length - 1) this.searchform.channelCd = ['全部产品'].concat(val)
+        }
+
+        //储存当前最后的结果 作为下次的老数据 
+        this.oldOption[1] = this.searchform.channelCd
+    },
+
+    //月报表全选设置
+    changeSelectMonth(val) {
+        let allValues = []
+        //保留所有值
+        for (let item of this.channellist) {
+            allValues.push(item.channelCode)
+        }
+
+        // 用来储存上一次的值，可以进行对比
+        const oldVal = this.oldOptions.length === 0 ? [] : this.oldOptions[1]
+
+        // 若是全部选择
+        if (val.includes('全部产品')) this.dbform.channelCd = allValues 
+
+        // 取消全部选中  上次有 当前没有 表示取消全选
+        if (oldVal.includes('全部产品') && !val.includes('全部产品')) this.dbform.channelCd = []
+
+        // 点击非全部选中  需要排除全部选中 以及 当前点击的选项 
+        // 新老数据都有全部选中 
+        if (oldVal.includes('全部产品') && val.includes('全部产品')) {
+            const index = val.indexOf('全部产品')
+            val.splice(index, 1) // 排除全选选项
+            this.dbform.channelCd = val
+        }
+
+        //全选未选 但是其他选项全部选上 则全选选上 上次和当前 都没有全选
+        if (!oldVal.includes('全部产品') && !val.includes('全部产品')) {
+            if (val.length === allValues.length - 1) this.dbform.channelCd = ['全部产品'].concat(val)
+        }
+
+        //储存当前最后的结果 作为下次的老数据 
+        this.oldOptions[1] = this.dbform.channelCd
+      },
+
+
     //导出月统计报表
     outputmonthlist(filename){
+      //判断用户是否选择渠道
+      if(this.dbform.channelCd=='' || this.dbform.channelCd==null){
+        this.$message({
+                      message: '查询月报表必须选择至少一种产品！',
+                      type: "warning"
+                    });
+      }else{
+
+      //去除全部字段
+      const index = this.dbform.channelCd.indexOf('全部产品')
+
+      //必须要进行判断
+      if(index!=-1){
+        this.dbform.channelCd.splice(index, 1) // 排除全选选项
+      }
+
       const url = this.$store.state.domain +"/loanManage/reportFormMonthExport";
                 this.$http.post(url, this.dbform , {
                     responseType: 'blob'
@@ -243,14 +335,32 @@ export default {
                     });
                     // console.warn(err);
                 });
+      }
     },
 
 
     // 导出日报表
     outputdaylist(filename){
+      //判断用户是否选择渠道
+      if(this.searchform.channelCd=='' || this.searchform.channelCd==null){
+        this.$message({
+                      message: '查询日报表必须选择至少一种产品！',
+                      type: "warning"
+                    });
+      }else{
+        
+      //去除全部字段
+      const index = (this.searchform.channelCd).indexOf('全部产品')
+
+      //必须要进行判断
+      if(index!=-1){
+        this.searchform.channelCd.splice(index, 1) // 排除全选选项
+      }
+
       const url = this.$store.state.domain +"/loanManage/reportFormDayExport";
-                this.$http.post(url, this.searchform , {
-                    responseType: 'blob'
+
+      this.$http.post(url, this.searchform , 
+      { responseType: 'blob'
                 }).then(res => {
                   // 成功
                     this.$message({
@@ -260,10 +370,18 @@ export default {
                     let blob = new Blob([res.data], {
                         type: 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                     })
+
                     if (window.navigator.msSaveOrOpenBlob) {
                         navigator.msSaveBlob(blob);
                     } else {
                         let elink = document.createElement('a');
+
+                        //延时
+                        let num = ''
+                        for(let i=0;i < 10;i++){
+                          num += Math.ceil(Math.random() * 10)
+                        }
+
                         elink.download = filename+'_'+this.getdate()+".xls";
                         // console.log(this.getdate())
                         elink.style.display = 'none';
@@ -281,6 +399,8 @@ export default {
                     });
                     // console.warn(err);
                 });
+                
+      }
     },
 
     //获取时间戳
@@ -357,7 +477,13 @@ export default {
           //成功
           response => {
             if (response.data.code == 0) { 
-                this.channellist = response.data.detail.result;
+              //添加全选功能
+                this.channellist.push({channelCode: '全部产品'});
+
+                for(var i=0;i<(response.data.detail.result).length;i++){
+
+                  this.channellist.push((response.data.detail.result)[i]);
+                }
             } 
             //失败
             else {

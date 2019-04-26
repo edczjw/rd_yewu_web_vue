@@ -726,6 +726,8 @@ created() {
         }
         else if(channelCode=="M009"){
             this.$router.push("/users/detailjiarongbao?processNo=" + processNo);
+        }else if(channelCode=="M020"){
+            this.$router.push("/users/detailchangsheng?processNo=" + processNo);
         }else{
             this.$router.push("/users/detaillinyi?processNo=" + processNo);
         }

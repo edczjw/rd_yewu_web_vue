@@ -13,43 +13,45 @@
         <tr>
           <td>
           <div class="itempic">
-          <span class="tspan">身份证正面</span>
+              <div class="tspan">身份证正面</div>
               <div class="pic"><img :src="detail.idCardFront"></div>
             </div>
-            <div class="itempic">
-          <span class="tspan">身份证反面</span>
+
+          <div class="itempic">
+              <div class="tspan">身份证反面</div>
               <div class="pic"><img :src="detail.idCardBack"></div>
             </div>
-            <div class="itempic">
-            <span class="tspan">客户半身照</span>
-              <div class="pic"><img :src="detail.imageHalfBody"></div>
-              <!-- <div class="name">{{item.name}}</div> -->
+
+          <div class="itempic">
+              <div class="tspan">客户半身照</div>
+              <div class="pic"><img :src="(detail.imageHalfBody=='' || this.detail.imageHalfBody==null)? 'https://5b0988e595225.cdn.sohucs.com/images/20180118/a0163c6be9d247918669229bed6c7280.png':detail.imageHalfBody"></div>
             </div>
+            
             </td>
         </tr>
         
-        <tr>
+        <tr v-if="(this.detail.urlimg=='' || this.detail.urlimg==null)? false:true">
           <td>
             <div class="itempic" v-for="item in detail.urlimg" :key="item.id">
-            <span class="tspan">客户照片</span>
+              <div class="tspan">客户照片</div>
               <div class="pic"><img :src="item"></div>
             </div>
           </td>
         </tr>
         
-        <tr>
+        <tr v-if="saw">
           <td class="othertd">
             <div v-if="show">
-            <div class="itempic itempics" v-for="item in detail.otherimg" :key="item.id" >
-            <span class="tspan">其他影像资料</span>
+            <div class="itempic " v-for="item in detail.otherimg" :key="item.id" >
+            <div class="tspan">其他影像资料</div>
               <div class="picother"> 
               <img :src="item">
               </div>
             </div>
             </div>
 
-            <div class="itempic itempics" v-if="shows">
-            <span class="tspan">其他影像资料</span>
+            <div class="itempic" v-if="shows">
+            <div class="tspan">其他影像资料</div>
               <div class="picother"> 
               <img :src="detail.othimge">
               </div>
@@ -60,9 +62,8 @@
         <tr>
           <td>
             <div class="itempic">
-          <span class="tspan">ocr照片</span>
-              <div class="pic"><img :src="detail.ocrImage"></div>
-              <!-- <div class="name">{{item.name}}</div> -->
+            <div class="tspan">ocr照片</div>
+              <div class="pic"><img :src="(detail.ocrImage == null || detail.ocrImage =='')?  'https://5b0988e595225.cdn.sohucs.com/images/20180118/a0163c6be9d247918669229bed6c7280.png': detail.ocrImage"></div>
             </div>
             </td>
         </tr>
@@ -78,12 +79,17 @@
 export default {
   data() {
     return {
+      saw:false,
       show:false,
       shows:false,
+
       detail: {
         urlimg:"",
         otherimg:"",
-        othimge:""
+        othimge:"",
+        customerImage:"",
+        idCardBack:"",
+        idCardFront:""
       },
     };
   },
@@ -104,25 +110,28 @@ export default {
           response => {
             if (response.data.code == 0) {
               this.detail = response.data.detail.result;
-              this.detail.urlimg = response.data.detail.result.customerImage.split(";");
+
+              this.detail.urlimg = (response.data.detail.result.customerImage).split(";");
+
               var oth = response.data.detail.result.imageOther;
+
               if(oth==null){
                 this.detail.otherimg=""
-                console.log("空的")
+                console.log("其他影像是空的")
               }
               else if(oth.indexOf(";") != -1){
                 this.detail.otherimg=oth.split(";");
+                this.saw=true;
                 this.show=true;
-                console.log("多张")
+                console.log("其他影像有多张")
               }
-              else{
+              else {
                 this.detail.othimge = oth;
+                this.saw=true;
                 this.shows=true;
-                console.log("1张")
+                console.log("其他影像只有1张")
               }
-              console.log(this.detail.urlimg)
-              console.log(this.detail.otherimg)
-              console.log(this.detail.othimge)
+
             }
           },
           response => {
@@ -138,30 +147,28 @@ export default {
 
 <style lang='less' scoped>
 .itempic {
-  float: left;
+  display: inline-table;
 
-  height: 320px;
-  margin: 10px;
+  height: 300px;
   padding: 10px;
-
-  text-align: center;
+  position: relative;
 
   .pic {
+      margin-top: 20px;
     img {
       width: 330px;
       height: 230px;
-
-      border: 1px solid rgb(131, 124, 124);
+      border: 1px solid rgba(131, 124, 124, 0.767);
       border-radius: 15px;
     }
   }
 
   //其他影像
   .picother {
+      margin-top: 20px;
     img {
       width: 330px;
       height: 230px;
-
       border: 1px solid rgba(197, 194, 194, .418);
       border-radius: 15px;
     }
@@ -169,10 +176,11 @@ export default {
 }
 
 .tspan {
+  top:0;
+  left: 40%;
+  position: absolute;
   font-size: 14px;
-
-  display: block;
-
+  height: 320px;
   margin-bottom: 20px;
 }
 
@@ -187,7 +195,7 @@ td {
 
   text-align: center;
 
-  border: 1px solid rgb(153, 150, 150);
+  border-bottom: 1px solid rgb(153, 150, 150);
 }
 
 * {

@@ -230,6 +230,13 @@ export default new Router({
           meta: {
             auth: true
           }
+        },{
+          path: '/users/detailchangsheng',
+          name: '昌盛详情页',
+          component: require('../views/users/detailchangsheng.vue').default,
+          meta: {
+            auth: true
+          }
         },
         {
           path: '/users/userbasewanshang',
@@ -314,6 +321,13 @@ export default new Router({
           path: '/users/userbasejiarongbao',
           name: '佳融宝基础信息',
           component: require('../views/users/userbasejiarongbao.vue').default,
+          meta: {
+            auth: true
+          }
+        },{
+          path: '/users/userbasechangsheng',
+          name: '昌盛基础信息',
+          component: require('../views/users/userbasechangsheng.vue').default,
           meta: {
             auth: true
           }
