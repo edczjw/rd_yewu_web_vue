@@ -159,8 +159,6 @@
         </div>
 </div>
 
-<!-- 小猪佩奇 -->
-<img src="http://dingyue.nosdn.127.net/Y0b2B9MCCaqZBGTEhdix78AECPqwFsEiezuc0kwhYeDxL1536463553265.jpeg"/>
   </div>
 </template>
 <script>

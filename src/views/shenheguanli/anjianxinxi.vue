@@ -1,5 +1,4 @@
 <template>
-
 <!-- true显示，false不显示 -->
   <div v-if="userName==this.$store.state.nameler?false:true">
     
