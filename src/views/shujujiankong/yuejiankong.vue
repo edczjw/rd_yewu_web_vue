@@ -79,14 +79,14 @@
         <!-- =============================== 展示表格数据框 =================================== -->
        
           <el-table :data="tableData"  border size="medium"
-          stripe v-loading="listLoading" 
+          stripe v-loading="listLoading"  border
           element-loading-text="拼命加载中"
           element-loading-spinner="el-icon-loading"
           element-loading-background="rgba(0, 0, 0, 0.8)"
           style="width: 100%; height:100%;">
             <el-table-column prop="channelCd" label="渠道" align="center">
             </el-table-column>
-            <el-table-column prop="productCd" label="产品" align="center">
+            <el-table-column prop="productCd" label="产品" width="480px" align="center">
             </el-table-column>
             <el-table-column prop="merchant_id" label="账户" align="center">
             </el-table-column>

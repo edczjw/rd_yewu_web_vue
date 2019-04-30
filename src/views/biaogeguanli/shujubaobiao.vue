@@ -374,12 +374,6 @@ export default {
                     } else {
                         let elink = document.createElement('a');
 
-                        //延时
-                        let num = ''
-                        for(let i=0;i < 10;i++){
-                          num += Math.ceil(Math.random() * 10)
-                        }
-
                         elink.download = filename+'_'+this.getdate()+".xls";
                         // console.log(this.getdate())
                         elink.style.display = 'none';

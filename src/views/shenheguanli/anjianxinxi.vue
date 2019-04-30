@@ -173,11 +173,11 @@
             </el-table-column>
             <el-table-column prop="preApproveMonthRate" label="月利率" width="90" align="center">
             </el-table-column>
-            <el-table-column prop="preApproveRepayMethod" label="还款方式" width="90" align="center">
+            <el-table-column prop="preApproveRepayMethod" label="还款方式" width="190" align="center">
             </el-table-column>
             <el-table-column prop="status" label="审批结果" width="80" align="center">
             </el-table-column>
-            <el-table-column prop="refuseReason" label="拒绝原因" width="160" align="center">
+            <el-table-column prop="refuseReason" label="拒绝原因" width="240" align="center">
             </el-table-column>
             <el-table-column prop="approveTime" label="审批时间"  align="center">
             </el-table-column>
