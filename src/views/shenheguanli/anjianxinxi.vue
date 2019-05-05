@@ -165,7 +165,7 @@
             </el-table-column>
             <!-- <el-table-column prop="channelCode" label="渠道" width="100" align="center">
             </el-table-column> -->
-            <el-table-column prop="productCode" label="子产品" width="120" align="center">
+            <el-table-column prop="productCode" label="子产品" width="100" align="center">
             </el-table-column>
             <el-table-column prop="preApproveMoney" label="审批额度" width="100" align="center">
             </el-table-column>
@@ -173,11 +173,11 @@
             </el-table-column>
             <el-table-column prop="preApproveMonthRate" label="月利率" width="90" align="center">
             </el-table-column>
-            <el-table-column prop="preApproveRepayMethod" label="还款方式" width="190" align="center">
+            <el-table-column prop="preApproveRepayMethod" label="还款方式" width="170" align="center">
             </el-table-column>
             <el-table-column prop="status" label="审批结果" width="80" align="center">
             </el-table-column>
-            <el-table-column prop="refuseReason" label="拒绝原因" width="240" align="center">
+            <el-table-column prop="refuseReason" label="拒绝原因" width="210" align="center">
             </el-table-column>
             <el-table-column prop="approveTime" label="审批时间"  align="center">
             </el-table-column>
@@ -580,6 +580,9 @@ created() {
 
 //  导入统一样式less样式
 @import '../users/index.css';
+
+
+
 
 
 

@@ -54,9 +54,9 @@
           <el-form ref="searchform" :model="searchform" label-width="80px" size="mini">
 
             <el-row :gutter="30">
-              <el-col :span="6">
+              <el-col :span="8">
                   <el-form-item label="产品" prop="channelCd">
-                    <el-select v-model="searchform.channelCd" multiple collapse-tags placeholder="请选择产品" @change="changeSelectDay">
+                    <el-select v-model="searchform.channelCd" class="sh" multiple collapse-tags placeholder="请选择产品" @change="changeSelectDay">
                     <el-option v-for="item in channellist"
                         :key="item.channelCode"
                         :label="item.channelCode"
@@ -65,7 +65,7 @@
                   </el-form-item>
               </el-col>
               
-              <el-col :span="6">
+              <el-col :span="8">
                 <el-form-item label="案件日期" prop="beginDate">
                     <el-date-picker class="shi"
                       v-model="searchform.beginDate"
@@ -75,7 +75,7 @@
                     </el-date-picker>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="8">
                 <el-form-item label="至" prop="endDate">
                   <el-date-picker class="shi"
                       v-model="searchform.endDate"
@@ -85,7 +85,10 @@
                     </el-date-picker>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+            </el-row>
+
+            <el-row :gutter="30">
+              <el-col :span="24">
                 <div class="di">
                   <div class="wrapper">
                     <el-button type="primary" plain @click="outputdaylist('日报表')" size="mini">
@@ -112,9 +115,9 @@
           <el-form ref="dbform" :model="dbform" label-width="80px" size="mini">
 
             <el-row :gutter="30">
-              <el-col :span="6">
+              <el-col :span="8">
                   <el-form-item label="产品" prop="channelCd">
-                    <el-select v-model="dbform.channelCd"  @change="changeSelectMonth" multiple collapse-tags placeholder="请选择产品">
+                    <el-select v-model="dbform.channelCd" class="sh"  @change="changeSelectMonth" multiple collapse-tags placeholder="请选择产品">
                     <el-option v-for="item in channellist"
                         :key="item.channelCode"
                         :label="item.channelCode"
@@ -123,7 +126,7 @@
                   </el-form-item>
               </el-col>
               
-              <el-col :span="6">
+              <el-col :span="8">
                 <el-form-item label="案件日期" prop="beginDate">
                     <el-date-picker class="shi"
                       v-model="dbform.beginDate"
@@ -133,7 +136,7 @@
                     </el-date-picker>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="8">
                 <el-form-item label="至" prop="endDate">
                   <el-date-picker class="shi"
                       v-model="dbform.endDate"
@@ -143,7 +146,10 @@
                     </el-date-picker>
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+            </el-row>
+
+            <el-row :gutter="30">
+              <el-col :span="24">
                 <div class="di">
                   <div class="wrapper">
                     <el-button type="primary" plain @click="outputmonthlist('月报表')" size="mini">
@@ -514,135 +520,5 @@ export default {
 
 //  导入统一样式less样式
 @import '../users/index.css';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </style>

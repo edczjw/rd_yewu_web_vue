@@ -31,6 +31,10 @@
   width: 210px !important;
 }
 
+.sh .el-input {
+  width: 260px !important;
+}
+
 /* 表格表头样式 */
 .el-table th {
   color: rgba(204, 160, 102, .925);

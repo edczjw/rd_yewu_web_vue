@@ -50,9 +50,9 @@
           <el-form ref="searchform" :model="searchform" label-width="80px" size="mini">
 
             <el-row :gutter="30">
-              <el-col :span="6">
-                  <el-form-item label="渠道" prop="channelCd">
-                    <el-select v-model="searchform.channelCd" multiple placeholder="请选择渠道" collapse-tags @change="selchange">
+              <el-col :span="8">
+                  <el-form-item label="渠道" prop="channelCd" >
+                    <el-select v-model="searchform.channelCd" class="sh"  multiple placeholder="请选择渠道" collapse-tags @change="selchange">
                     <el-option v-for="item in channellist"
                         :key="item.channelCode"
                         :label="item.channelCode"
@@ -86,11 +86,11 @@
           style="width: 100%; height:100%;">
             <el-table-column prop="channelCd" label="渠道" align="center">
             </el-table-column>
-            <el-table-column prop="productCd" label="产品" width="480px" align="center">
+            <el-table-column prop="productCd" label="产品" width="280px" align="center">
             </el-table-column>
             <el-table-column prop="merchant_id" label="账户" align="center">
             </el-table-column>
-            <el-table-column prop="pay_name" label="账户名称" align="center">
+            <el-table-column prop="pay_name" label="账户名称" width="410px" align="center">
             </el-table-column>
             <el-table-column prop="valid_Amount" label="实时余额" align="center">
             </el-table-column>
@@ -377,5 +377,24 @@ export default {
 
 //  导入统一样式less样式
 @import '../users/index.css';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </style>
