@@ -602,13 +602,17 @@ created() {
         }
         else if(channelCode=="M019"){
             this.$router.push("/users/detailxiaoye?processNo=" + processNo);
-        }else if(channelCode=="M018"){
+        }else if(channelCode=="M018" || channelCode=="M023" || channelCode=="M024"){
             this.$router.push("/users/detailbaiduo?processNo=" + processNo);
         }
         else if(channelCode=="M009"){
             this.$router.push("/users/detailjiarongbao?processNo=" + processNo);
         }else if(channelCode=="M020"){
             this.$router.push("/users/detailchangsheng?processNo=" + processNo);
+        }else if(channelCode=="M021"){
+            this.$router.push("/users/detailweirong?processNo=" + processNo);
+        }else if(channelCode=="M022"){
+            this.$router.push("/users/detailhairong?processNo=" + processNo);
         }else{
             this.$router.push("/users/detaillinyi?processNo=" + processNo);
         }

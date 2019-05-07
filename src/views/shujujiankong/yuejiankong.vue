@@ -93,6 +93,10 @@
             <el-table-column prop="pay_name" label="账户名称" width="410px" align="center">
             </el-table-column>
             <el-table-column prop="valid_Amount" label="实时余额" align="center">
+              <template slot-scope="scope">
+                <!-- 数值千分符 -->
+                {{parseInt(scope.row.valid_Amount).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')}}
+              </template>
             </el-table-column>
           </el-table>
 </div>

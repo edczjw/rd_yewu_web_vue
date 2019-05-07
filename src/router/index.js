@@ -237,6 +237,20 @@ export default new Router({
           meta: {
             auth: true
           }
+        },{
+          path: '/users/detailweirong',
+          name: '微融详情页',
+          component: require('../views/users/detailweirong.vue').default,
+          meta: {
+            auth: true
+          }
+        },{
+          path: '/users/detailhairong',
+          name: '海融详情页',
+          component: require('../views/users/detailhairong.vue').default,
+          meta: {
+            auth: true
+          }
         },
         {
           path: '/users/userbasewanshang',
@@ -328,6 +342,20 @@ export default new Router({
           path: '/users/userbasechangsheng',
           name: '昌盛基础信息',
           component: require('../views/users/userbasechangsheng.vue').default,
+          meta: {
+            auth: true
+          }
+        },{
+          path: '/users/userbaseweirong',
+          name: '微融基础信息',
+          component: require('../views/users/userbaseweirong.vue').default,
+          meta: {
+            auth: true
+          }
+        },{
+          path: '/users/userbasehairong',
+          name: '海融基础信息',
+          component: require('../views/users/userbasehairong.vue').default,
           meta: {
             auth: true
           }
