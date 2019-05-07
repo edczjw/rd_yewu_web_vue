@@ -6,7 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state:{
         domain:'http://dev.coo.msxiaodai.com',
-        nameler:'null',//设置路由查看权限
+        nameler:null,//设置路由查看权限
         isLeftHiden:false,
         auditor_id:"",
         roleId:"",

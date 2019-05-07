@@ -211,6 +211,8 @@
             </el-table-column>
             <el-table-column prop="processNo" label="案件号" align="center">
             </el-table-column>
+            <el-table-column prop="contractNo" label="合同号" align="center">
+            </el-table-column>
             <el-table-column prop="name" label="客户姓名" width="80" align="center">
               <!-- 点击某个客户姓名查看详情 -->
               <template slot-scope="scope">
@@ -219,8 +221,6 @@
                   {{scope.row.name}}</el-button>
               </template>
             </el-table-column>
-            <!-- <el-table-column v-if="show" prop="processNo" label="案件号" align="center">
-            </el-table-column> -->
             <!-- <el-table-column prop="channelCode" label="进件渠道" width="100" align="center">
             </el-table-column> -->
             <el-table-column prop="productCode" label="子产品" width="140" align="center">
