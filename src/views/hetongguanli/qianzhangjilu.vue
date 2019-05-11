@@ -86,7 +86,6 @@
                   </el-select>
                   </el-form-item>
               </el-col>
-              
             </el-row>
 
             <el-row :gutter="30">
@@ -135,7 +134,7 @@
           </el-form>
         </div>
 
-        <div class="cen-box">
+        <!-- <div class="cen-box">
         <div class="dl-center">
           <el-col :span="6">
             <el-tag type="danger" size="mini">查询结果客户签署次数：{{allmoney}}</el-tag>
@@ -147,7 +146,7 @@
                 <el-tag type="danger" size="mini">查询结果企业签署次数：{{allmoney}}</el-tag>
           </el-col>
         </div>
-        </div>
+        </div> -->
 
         <!-- =============================== 展示表格数据框 =================================== -->
        
@@ -159,23 +158,25 @@
           style="width: 100%; height:100%;">
             <el-table-column prop="processNo" label="合同号" align="center">
             </el-table-column>
-            <el-table-column prop="name" label="签署ID" width="80" align="center">
-              <!-- 点击某个客户姓名查看详情 -->
+            <el-table-column prop="name" label="签署ID" width="220" align="center">
+            </el-table-column>
+            <el-table-column prop="processNo" label="签署名称" width="110" align="center">
               <template slot-scope="scope">
-                <el-button type="text" size="small" 
-                @click="gouserdetail(scope.row.processNo,scope.row.channelCode)">
-                  {{scope.row.name}}</el-button>
+                {{checkstring(scope.row.processNo)}}
               </template>
             </el-table-column>
-            <el-table-column prop="processNo" label="签署名称" align="center">
-            </el-table-column>
-            <el-table-column prop="productCode" label="产品" width="140" align="center">
+            <el-table-column prop="productCode" label="产品" width="190" align="center">
             </el-table-column>
             <el-table-column prop="productCode" label="子产品" width="140" align="center">
             </el-table-column>
-            <el-table-column prop="loanType" label="签署时间" width="140" align="center">
+            <el-table-column prop="loanType" label="签署时间" width="270" align="center">
             </el-table-column>
             <el-table-column prop="loanPmtDueDate" label="操作" align="center">
+              <template slot-scope="scope">
+                <el-button type="text" size="small" 
+                @click="gotourl(scope.row.loanPmtDueDate)">
+                  查看</el-button>
+              </template>
             </el-table-column>
 
           </el-table>
@@ -215,7 +216,7 @@ export default {
       listLoading: false,
       pageIndex:1,//初始页
       pageSize: 50,//显示当前行的条数
-      allmoney:0,
+      // allmoney:0,
       count:0,//总信息数
 
       //渠道数据容器
@@ -257,7 +258,7 @@ export default {
     this.getchannellist();//获取搜索框渠道接口列表
 
     // this.getproductlist();//获取渠道产品接口方法
-
+    this.checkstring();//判断字符串长度
     this.getRate();//判断利率
     this.getTerm();//判断期限
     this.getloan();//判断放款
@@ -274,6 +275,17 @@ created() {
     this.getlist();//获取用户列表
 },
   methods: {
+    checkstring(str){
+      if(str.length>4){
+        return str.substring(0,4)+"……";
+      }else{
+        return str;
+      }
+    },
+    gotourl(url){
+      window.open(url);
+    },
+
     //返回上一页
     lastpage(){
       window.history.go(-1);
@@ -452,31 +464,6 @@ created() {
       handleCurrentChange(pindex) {
         this.searchform.pageIndex = pindex;
         this.getlist();
-      },
-
-      // 点击用户名跳转至详情页
-      gouserdetail(processNo,channelCode) {
-        //判断跳转
-        if(channelCode=="WHZHWS"){
-            this.$router.push("/users/detailwanshang?processNo=" + processNo);
-        }
-        else if(channelCode=="SDLY"){
-            this.$router.push("/users/detaillinyi?processNo=" + processNo);
-        }else if(channelCode=="BJHY"){
-            this.$router.push("/users/detailhuayu?processNo=" + processNo);
-        }else if(channelCode=="BJZH"){
-            this.$router.push("/users/detailzhonghe?processNo=" + processNo);
-        }else if(channelCode=="M008"){
-            this.$router.push("/users/detailhuayu?processNo=" + processNo);
-        }else if(channelCode=="M012"){
-            this.$router.push("/users/detailshenshengrong?processNo=" + processNo);
-        }else if(channelCode=="M015"){
-            this.$router.push("/users/detailguhe?processNo=" + processNo);
-        }else if(channelCode=="M016"){
-            this.$router.push("/users/detailqianhai?processNo=" + processNo);
-        }else{
-            this.$router.push("/users/detaillinyi?processNo=" + processNo);
-        }
       },
 
       // ajax异步数据交互：Vue 实例提供了 this.$http 服务可用于发送 HTTP 请求

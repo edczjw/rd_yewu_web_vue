@@ -29,21 +29,35 @@
           <el-submenu index="2">
             <template slot="title">
               <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-hetong3"></use>
+              </svg>
+              <span>合同管理</span>
+            </template>
+            <el-menu-item-group>
+              <router-link to="/hetongguanli/qianzhangjilu">
+                <el-menu-item index="2-1">签章记录</el-menu-item>
+              </router-link>
+            </el-menu-item-group>
+          </el-submenu>
+
+          <el-submenu index="3">
+            <template slot="title">
+              <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-zhifu"></use>
               </svg>
               <span>支付管理</span>
             </template>
             <el-menu-item-group>
               <router-link to="/zhifuguanli/fangkuanjilu">
-                <el-menu-item index="2-1">放款记录</el-menu-item>
+                <el-menu-item index="3-1">放款记录</el-menu-item>
               </router-link>
               <router-link to="/zhifuguanli/huankuanjilu">
-                <el-menu-item index="2-2">还款记录</el-menu-item>
+                <el-menu-item index="3-2">还款记录</el-menu-item>
               </router-link>
             </el-menu-item-group>
           </el-submenu>
 
-          <el-submenu index="3">
+          <el-submenu index="4">
             <template slot="title">
               <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-zmxy"></use>
@@ -52,12 +66,12 @@
             </template>
             <el-menu-item-group>
               <router-link to="/shujujiankong/yuejiankong">
-                <el-menu-item index="3-1">余额监控</el-menu-item>
+                <el-menu-item index="4-1">余额监控</el-menu-item>
               </router-link>
             </el-menu-item-group>
           </el-submenu>
 
-          <el-submenu index="4">
+          <el-submenu index="5">
             <template slot="title">
               <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-biaogeshezhi"></use>
@@ -66,15 +80,15 @@
             </template>
             <el-menu-item-group>
               <router-link to="/duizhangshenhe/tiqianjieqing">
-                <el-menu-item index="4-1">提前结清</el-menu-item>
+                <el-menu-item index="5-1">提前结清</el-menu-item>
               </router-link>
               <router-link to="/duizhangshenhe/zhengchanghuankuan">
-                <el-menu-item index="4-2">正常还款</el-menu-item>
+                <el-menu-item index="5-2">正常还款</el-menu-item>
               </router-link>
             </el-menu-item-group>
           </el-submenu>
 
-          <el-submenu index="5">
+          <el-submenu index="6">
             <template slot="title">
               <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-web-icon-"></use>
@@ -83,10 +97,10 @@
             </template>
             <el-menu-item-group>
               <router-link to="/biaogeguanli/caiwubaobiao">
-                <el-menu-item index="5-1">财务报表</el-menu-item>
+                <el-menu-item index="6-1">财务报表</el-menu-item>
               </router-link>
               <router-link to="/biaogeguanli/shujubaobiao">
-                <el-menu-item index="5-2">数据报表</el-menu-item>
+                <el-menu-item index="6-2">数据报表</el-menu-item>
               </router-link>
             </el-menu-item-group>
           </el-submenu>
