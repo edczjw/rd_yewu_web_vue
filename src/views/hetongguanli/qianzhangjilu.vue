@@ -45,25 +45,20 @@
           <el-form ref="searchform" :model="searchform" label-width="100%" size="mini">
             <el-row :gutter="30">
               <el-col :span="6">
-                  <el-form-item label="签署名称" prop="name">
-                    <el-input v-model="searchform.name" clearable></el-input>
+                  <el-form-item label="签署名称" prop="signatory">
+                    <el-input v-model="searchform.signatory" placeholder="名称" clearable></el-input>
                   </el-form-item>
               </el-col>
 
               <el-col :span="6">
-                  <el-form-item label="合同号" prop="payAmt">
-                    <el-select v-model="searchform.payAmt" placeholder="请选择放款金额" clearable>
-                      <el-option v-for="item in payamts"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"></el-option>
-                  </el-select>
+                  <el-form-item label="合同号" prop="contractNo">
+                    <el-input v-model="searchform.contractNo" placeholder="合同号" clearable></el-input>
                   </el-form-item>
               </el-col>
 
               <el-col :span="6">
-                  <el-form-item label="产品" prop="channelCd">
-                    <el-select v-model="searchform.channelCd" placeholder="请选择产品" 
+                  <el-form-item label="产品" prop="channelCode">
+                    <el-select v-model="searchform.channelCode" placeholder="请选择产品" 
                     @change="selChange($event)" clearable>
                       <!-- 从后台要的数据 -->
                     <el-option v-for="item in channellist"
@@ -75,8 +70,8 @@
                   </el-form-item>
               </el-col>
               <el-col :span="6">
-                  <el-form-item label="子产品" prop="productCd">
-                    <el-select v-model="searchform.productCd" placeholder="请选择子产品" clearable>
+                  <el-form-item label="子产品" prop="productCode">
+                    <el-select v-model="searchform.productCode" placeholder="请选择子产品" clearable>
                     <!-- 从后台要的数据 -->
                     <el-option v-for="item in productlist"
                               :label="item.productCode"
@@ -156,25 +151,25 @@
           element-loading-spinner="el-icon-loading"
           element-loading-background="rgba(0, 0, 0, 0.8)"
           style="width: 100%; height:100%;">
-            <el-table-column prop="processNo" label="合同号" align="center">
+            <el-table-column prop="contractNo" label="合同号" align="center">
             </el-table-column>
-            <el-table-column prop="name" label="签署ID" width="220" align="center">
+            <el-table-column prop="signId" label="签署ID" width="220" align="center">
             </el-table-column>
-            <el-table-column prop="processNo" label="签署名称" width="110" align="center">
+            <el-table-column prop="signatory" label="签署名称" width="110" align="center">
               <template slot-scope="scope">
-                {{checkstring(scope.row.processNo)}}
+                {{checkstring(scope.row.signatory)}}
               </template>
             </el-table-column>
-            <el-table-column prop="productCode" label="产品" width="190" align="center">
+            <el-table-column prop="channelCode" label="产品" width="190" align="center">
             </el-table-column>
             <el-table-column prop="productCode" label="子产品" width="140" align="center">
             </el-table-column>
-            <el-table-column prop="loanType" label="签署时间" width="270" align="center">
+            <el-table-column prop="createTime" label="签署时间" width="270" align="center">
             </el-table-column>
-            <el-table-column prop="loanPmtDueDate" label="操作" align="center">
+            <el-table-column prop="signDetailUrl" label="操作" align="center">
               <template slot-scope="scope">
                 <el-button type="text" size="small" 
-                @click="gotourl(scope.row.loanPmtDueDate)">
+                @click="gotourl(scope.row.signDetailUrl)">
                   查看</el-button>
               </template>
             </el-table-column>
@@ -229,21 +224,10 @@ export default {
       tableData: [],
 
       searchform: {
-        // name: "",//客户姓名
-        // channelCd: "",//进件渠道
-        productCd: "",//渠道产品
-        loanType: "",//计息方式
-        term:"",//借款期限
-        termBegin:"",//贷款开始期限
-        termEnd:"",//贷款结束期限
-        intRate:"",//借款利率
-        intRateBegin:"",
-        intRateEnd:"",
-        payChannel:"",//支付渠道
-        payAmt:"",//放款金额
-        payOrderStatus:"S",//放款状态
-        payAmtBegin:"",//开始放款金额
-        payAmtEnd:"",//结束放款时间
+        signatory:"",//名称
+        contractNo:"",//合同号
+        // channelCode:"",//渠道号
+        productCode: "",//产品号
         beginDate: new Date().toLocaleDateString()+" 00:00:00",//开始时间
         endDate: new Date().toLocaleDateString()+" 23:59:59",//至
         pageIndex: 1,
@@ -259,9 +243,6 @@ export default {
 
     // this.getproductlist();//获取渠道产品接口方法
     this.checkstring();//判断字符串长度
-    this.getRate();//判断利率
-    this.getTerm();//判断期限
-    this.getloan();//判断放款
      window.onresize = () => {
             // 全屏下监控是否按键了ESC
             if (!this.checkFull()) {
@@ -276,10 +257,12 @@ created() {
 },
   methods: {
     checkstring(str){
-      if(str.length>4){
-        return str.substring(0,4)+"……";
-      }else{
-        return str;
+        while(str!=null || str!=""){
+          if(str.length>4){
+          return str.toString().substring(0,4)+"……";
+        }else{
+          return str;
+        }
       }
     },
     gotourl(url){
@@ -326,7 +309,7 @@ created() {
     //实现下拉框二级联动
     selChange(val){
       let data = {
-        productCd: this.searchform.productCd
+        productCd: this.searchform.productCode
       };
       this.$http
         .post(this.$store.state.domain +"/loanManage/product/query", data)
@@ -362,7 +345,7 @@ created() {
       // let admintcookie=this.$cookies.get('admint');//获取本地缓存cookie2
       getchannellist() {
       let data = {
-        channelCd: this.searchform.channelCd
+        channelCd: this.searchform.channelCode
       };
       this.$http
         .post(this.$store.state.domain +"/loanManage/channel/query", data)
@@ -390,7 +373,7 @@ created() {
     //独自获取所有渠道产品列表
       getproductlist(){
       let data = {
-        productCd: this.searchform.productCd
+        productCd: this.searchform.productCode
       };
       this.$http
         .post(this.$store.state.domain +"/loanManage/product/query", data)
@@ -471,7 +454,7 @@ created() {
         this.listLoading=true;
         this.$http
           .post(
-            this.$store.state.domain +"/loanManage/loanPay", this.searchform 
+            this.$store.state.domain +"/loanManage/loanSignature", this.searchform 
           )
           //then()方法异步执行，就是当then()前面的方法执行完之后再执行then()里面的方法，这样就不会发生获取不到数据的问题
           .then(  
@@ -482,13 +465,7 @@ created() {
                 this.tableData = response.data.detail.result.pageList;
                 this.pageSize= response.data.detail.result.pageSize;
                 this.pageIndex=response.data.detail.result.pageIndex;
-                this.count= response.data.detail.result.count;
-                if(response.data.detail.result.params==null){
-                  this.allmoney=0;
-                }
-                else{
-                  this.allmoney = response.data.detail.result.params.payAmtTotal;
-                }
+                this.count=response.data.detail.result.count;
                 this.listLoading=false;
 
                 if(this.tableData==null)

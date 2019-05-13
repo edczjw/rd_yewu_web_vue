@@ -56,12 +56,6 @@
             <label >邮箱：</label>{{detail.mail}}</li>
           <li>
             <label >车辆状况：</label>{{detail.carStatus}}</li>
-          <li>
-            <label >手机归属地：</label>{{detail.phoneAttribution}}</li>
-          <li>
-            <label >IP：</label>{{detail.ip}}</li>
-          <li>
-            <label >设备型号：</label>{{detail.deviceType}}</li>
 
           <li style="width: 100%;">
           <label >居住地址：</label>{{detail.homeAddress}}</li>
@@ -219,7 +213,7 @@
             <label >芝麻信用认证：</label><el-button type="text" size="small" class="bottonurl" @click="getLink(detail.zhimaAuthUrl)">{{detail.zhimaAuthUrl}}
             </el-button></li>
           <li style="width: 100%;">
-            <label >通话详单认证：</label><el-button type="text" size="small" class="bottonurl" @click="getLink(detail.callAuthUrl)">{{detail.callAuthUrl}}
+            <label >运营商认证：</label><el-button type="text" size="small" class="bottonurl" @click="getLink(detail.operatorAuthUrl)">{{detail.operatorAuthUrl}}
             </el-button></li>
           <li style="width: 100%;">
             <label >人行征信报告认证：</label><el-button type="text" size="small" class="bottonurl" @click="getLink(detail.pbccrcAuthUrl)">{{detail.pbccrcAuthUrl}}
