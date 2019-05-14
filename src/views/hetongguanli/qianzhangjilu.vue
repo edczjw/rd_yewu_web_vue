@@ -242,7 +242,7 @@ export default {
     this.getchannellist();//获取搜索框渠道接口列表
 
     // this.getproductlist();//获取渠道产品接口方法
-    this.checkstring();//判断字符串长度
+    // this.checkstring();//判断字符串长度
      window.onresize = () => {
             // 全屏下监控是否按键了ESC
             if (!this.checkFull()) {
@@ -257,7 +257,7 @@ created() {
 },
   methods: {
     checkstring(str){
-        while(str!=null || str!=""){
+        if(str!=null || str!=""){
           if(str.length>4){
           return str.toString().substring(0,4)+"……";
         }else{
@@ -477,12 +477,8 @@ created() {
                   });
                 }
               } else {
-              //   this.listLoading=true;
-              // //请求失败回调函数
-              //   this.$message({
-              //       message: response.data.msg,
-              //       type: "error"
-              //     });
+                this.checkstring();//判断字符串长度
+
               }
               
             },

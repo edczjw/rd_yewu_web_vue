@@ -194,7 +194,7 @@
         style="width: 100%;height:100%;"
       >
         <el-table-column prop="processNo" label="案件号" align="center"></el-table-column>
-        <el-table-column prop="contractNo" label="合同号" align="center"></el-table-column>
+        <el-table-column prop="contractNo" label="合同号" width=210 align="center"></el-table-column>
         <el-table-column prop="name" label="客户姓名" align="center">
           <!-- 点击查看详情 -->
           <template slot-scope="scope">
