@@ -89,8 +89,8 @@
 
             <el-row :gutter="30">
               <el-col :span="6">
-                  <el-form-item label="借款利率" prop="intRate">
-                    <el-select v-model="searchform.intRate" placeholder="请选择借款利率" clearable>
+                  <el-form-item label="借款日利率" prop="intRate">
+                    <el-select v-model="searchform.intRate" placeholder="请选择借款日利率" clearable>
                     <el-option v-for="item in rates"
                         :key="item.value"
                         :label="item.label"
@@ -227,7 +227,7 @@
             </el-table-column>
             <el-table-column prop="payAmt" label="放款金额" width="120" align="center">
             </el-table-column>
-            <el-table-column prop="intRate" label="借款利率" width="100" align="center">
+            <el-table-column prop="intRate" label="借款日利率" width="100" align="center">
             </el-table-column>
             <el-table-column prop="term" label="借款期限" width="80" align="center">
             </el-table-column>
