@@ -105,8 +105,24 @@
             </el-menu-item-group>
           </el-submenu>
 
+          <el-submenu index="7">
+            <template slot="title">
+              <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-qiyetupu"></use>
+              </svg>
+              <span>精确数科</span>
+            </template>
+            <el-menu-item-group>
+              <!-- <router-link to="/yonghuguanli/mimaxiugai">
+                <el-menu-item index="5-1">密码修改</el-menu-item>
+              </router-link> -->
+              <router-link to="/jingqueshuke/jingqueshuju">
+                <el-menu-item index="7-1">精确数据</el-menu-item>
+              </router-link>
+            </el-menu-item-group>
+          </el-submenu>
 
-          <el-submenu index="6" v-if='showsystem'>
+          <el-submenu index="8" v-if='showsystem'>
             <template slot="title">
               <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-peizhi"></use>
@@ -118,7 +134,7 @@
                 <el-menu-item index="5-1">密码修改</el-menu-item>
               </router-link> -->
               <router-link to="/yonghuguanli/duilieguanli">
-                <el-menu-item index="6-1">队列管理</el-menu-item>
+                <el-menu-item index="8-1">队列管理</el-menu-item>
               </router-link>
             </el-menu-item-group>
           </el-submenu>

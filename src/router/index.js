@@ -121,6 +121,14 @@ export default new Router({
           }
         },
         {
+          path: '/jingqueshuke/jingqueshuju',
+          name: '精确数据',
+          component: require('../views/jingqueshuke/jingqueshuju.vue').default,
+          meta: {
+            auth: true
+          }
+        },
+        {
           path: '/yonghuguanli/duilieguanli',
           name: '队列管理',
           component: require('../views/yonghuguanli/duilieguanli.vue').default,
