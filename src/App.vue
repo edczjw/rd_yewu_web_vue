@@ -123,7 +123,7 @@ body {
 
 //搜索菜单标题
 .el-form-item__label {
-  width: 80px !important;
+  width: 90px !important;
 }
 
 //搜索菜单输入框部分
@@ -206,7 +206,10 @@ body {
   bottom: 13px;
 
   display: none;
-
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  line-height: 60px;
   cursor: pointer;
   -webkit-transition: .2s;
           transition: .2s;
