@@ -1,7 +1,7 @@
 <template>
   <div class="login">
-    <h2>民盛赎楼贷信息平台</h2>
-    <p class="phone">遇到问题 ? 可拨打客服电话：010-123456221</p>
+    <h1>民盛赎楼贷信息平台</h1>
+    <!-- <p class="phone">遇到问题 ? 可拨打客服电话：010-123456221</p> -->
 
     <el-card class="box-card">
       <div class="tit">注册</div>
@@ -25,6 +25,9 @@
           <el-form-item label="确认密码" prop="confirmPass" :rules="rules.confirmPass">
             <el-input type="password" v-model.trim="setForm.confirmPass"></el-input>
           </el-form-item>
+          <div class="button">
+            <el-button type="text" class="forgetbtn" @click="login">立即登录</el-button>
+          </div>
         </el-form>
         <div class="but" @click="register('setForm')">立即注册</div>
       </div>
@@ -70,6 +73,9 @@ export default {
     };
   },
   methods: {
+    login() {
+      this.$router.push("/sld/login");
+    },
     register(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -113,6 +119,11 @@ export default {
 /deep/ .el-input {
   width: 100% !important;
 }
+.forgetbtn {
+  position: absolute;
+  right: 0px;
+  top: -30px;
+}
 .button {
   position: relative;
 }
@@ -136,7 +147,7 @@ p {
   background-position: center center;
   background-size: cover;
 }
-h2 {
+h1 {
   position: absolute;
   font-family: "黑体";
   left: 2%;

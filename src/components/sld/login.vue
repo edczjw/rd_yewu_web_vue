@@ -1,7 +1,7 @@
 <template>
   <div class="login">
-    <h2>民盛赎楼贷信息平台</h2>
-    <p class="phone">遇到问题 ? 可拨打客服电话：010-123456221</p>
+    <h1>民盛赎楼贷信息平台</h1>
+    <!-- <p class="phone">遇到问题 ? 可拨打客服电话：010-123456221</p> -->
 
     <el-card class="box-card">
       <div class="tit">登录</div>
@@ -111,7 +111,7 @@ export default {
   background-position: center center;
   background-size: cover;
 }
-h2 {
+h1 {
   position: absolute;
   font-family: "黑体";
   left: 2%;

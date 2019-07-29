@@ -80,13 +80,12 @@
               <el-upload
                 class="avatar-uploader"
                 drag
-                :limit="12"
+                :limit="1"
                 :http-request="Upload1"
                 :file-list="fileList1"
                 :on-exceed="handleExceed1"
                 :before-upload="beforeAvatarUpload1"
                 :on-change="handleChange1"
-                multiple
                 action
               >
                 <img v-if="setForm.idcardFront.length>0" :src="setForm.idcardFront" class="avatar" />
@@ -106,13 +105,12 @@
               <el-upload
                 class="avatar-uploader"
                 drag
-                :limit="12"
+                :limit="1"
                 :http-request="Upload2"
                 :file-list="fileList2"
                 :on-exceed="handleExceed2"
                 :before-upload="beforeAvatarUpload2"
                 :on-change="handleChange2"
-                multiple
                 action
               >
                 <img v-if="setForm.idcardBack.length>0" :src="setForm.idcardBack" class="avatar" />
@@ -132,13 +130,12 @@
               <el-upload
                 class="avatar-uploader"
                 drag
-                :limit="12"
+                :limit="1"
                 :http-request="Upload3"
                 :file-list="fileList3"
                 :on-exceed="handleExceed3"
                 :before-upload="beforeAvatarUpload3"
                 :on-change="handleChange3"
-                multiple
                 action
               >
                 <img v-if="setForm.businessImg.length>0" :src="setForm.businessImg" class="avatar" />
@@ -157,13 +154,12 @@
               <el-upload
                 class="avatar-uploader"
                 drag
-                :limit="12"
+                :limit="1"
                 :http-request="Upload4"
                 :file-list="fileList4"
                 :on-exceed="handleExceed4"
                 :before-upload="beforeAvatarUpload4"
                 :on-change="handleChange4"
-                multiple
                 action
               >
                 <img
@@ -186,13 +182,12 @@
               <el-upload
                 class="avatar-uploader"
                 drag
-                :limit="12"
+                :limit="1"
                 :http-request="Upload5"
                 :file-list="fileList5"
                 :on-exceed="handleExceed5"
                 :before-upload="beforeAvatarUpload5"
                 :on-change="handleChange5"
-                multiple
                 action
               >
                 <img
@@ -215,13 +210,12 @@
               <el-upload
                 class="avatar-uploader"
                 drag
-                :limit="12"
+                :limit="1"
                 :http-request="Upload6"
                 :file-list="fileList6"
                 :on-exceed="handleExceed6"
                 :before-upload="beforeAvatarUpload6"
                 :on-change="handleChange6"
-                multiple
                 action
               >
                 <img
