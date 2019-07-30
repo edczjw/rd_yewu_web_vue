@@ -215,7 +215,7 @@ body {
           transition: .2s;
   -webkit-transition-timing-function: linear; /* Safari and Chrome */
           transition-timing-function: linear;
-
+  background: #ccc;
   opacity: .4;
   border: 1px solid blue;
   border-radius: 50%;
@@ -223,7 +223,6 @@ body {
 
 .gotop:hover {
   bottom: 18px;
-
   opacity: 1;
   border: 2px solid rgb(115, 255, 0);
 }

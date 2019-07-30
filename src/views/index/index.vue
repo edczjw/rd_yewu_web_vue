@@ -37,8 +37,15 @@ export default {
     //返回顶部
     returntop() {
       //返回顶部
-      var htop = document.body.scrollTop; //获取滚动高度
+      var htop;
+      if (document.documentElement && document.documentElement.scrollTop) {
+        htop = document.documentElement.scrollTop;
+      } else if (document.body) {
+        htop = document.body.scrollTop;
+      }
       var dtops = document.getElementById("dtop"); //获取图标
+      console.log("dtops", dtops);
+      console.log("htop", htop);
       // console.log(dtops.style.display);
       //判断滚动条滚动长度
       if (htop > 350) {

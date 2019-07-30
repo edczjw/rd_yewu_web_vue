@@ -24,7 +24,7 @@
           <el-steps :active="this.action" direction="vertical">
             <el-step title="基本信息" icon="el-icon-edit"></el-step>
             <el-step title="影像资料" icon="el-icon-upload"></el-step>
-            <el-step title="预览" icon="el-icon-picture"></el-step>
+            <el-step title="预览提交" icon="el-icon-picture"></el-step>
           </el-steps>
         </div>
       </el-card>
@@ -32,7 +32,7 @@
         <div class="cute-tip">
           <p v-if="this.action==1? true:false">基本信息</p>
           <p v-if="this.action==2? true:false">影像资料</p>
-          <p v-if="this.action==3? true:false">预览</p>
+          <p v-if="this.action==3? true:false">预览提交</p>
         </div>
         <!-- 基本信息 -->
         <div v-if="this.action==1? true:false" class="mess">
@@ -349,15 +349,22 @@ export default {
     this.phone = phone;
     //登陆成功提示
     this.openCenter();
+  },
+  mounted() {
     window.addEventListener("scroll", this.returntop, true); // 监听（绑定）滚轮滚动事件
   },
   methods: {
     returntop() {
       //返回顶部
-      var htop = document.body.scrollTop; //获取滚动高度
+       var htop
+       if(document.documentElement&&document.documentElement.scrollTop){
+            htop=document.documentElement.scrollTop;
+        }else if(document.body){
+            htop=document.body.scrollTop;
+        }
       var dtops = document.getElementById("dtop"); //获取图标
       //判断滚动条滚动长度
-      if (htop > 350) {
+      if (htop > 100) {
         dtops.style.display = "block";
       } else {
         dtops.style.display = "none";
@@ -365,7 +372,7 @@ export default {
     },
     movetop() {
       window.scrollTo(0, -1);
-      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
     },
     openCenter() {
       if (this.phone != null) {
@@ -437,7 +444,9 @@ export default {
           const storeAs =
             "test/sld/userinfo/" +
             obj +
-            "/cooperative/" +
+            "-" +
+            this.phone +
+            "-" +
             obj2 +
             "-" +
             fileName;
@@ -483,11 +492,11 @@ export default {
         }
       );
     },
-    handleExceed1(files, fileList) {
+    handleExceed1(files, fileList1) {
       this.$message.warning(
         `当前限制选择 1 个文件，本次选择了 ${
           files.length
-        } 个文件，共选择了 ${files.length + fileList.length} 个文件`
+        } 个文件，共选择了 ${files.length + fileList1.length} 个文件`
       );
     },
     beforeAvatarUpload1(file) {
@@ -558,7 +567,9 @@ export default {
           const storeAs =
             "test/sld/userinfo/" +
             obj +
-            "/cooperative/" +
+            "-" +
+            this.phone +
+            "-" +
             obj2 +
             "-" +
             fileName;
@@ -607,11 +618,11 @@ export default {
         }
       );
     },
-    handleExceed2(files, fileList) {
+    handleExceed2(files, fileList2) {
       this.$message.warning(
         `当前限制选择 1 个文件，本次选择了 ${
           files.length
-        } 个文件，共选择了 ${files.length + fileList.length} 个文件`
+        } 个文件，共选择了 ${files.length + fileList2.length} 个文件`
       );
     },
     beforeAvatarUpload2(file) {
@@ -682,7 +693,9 @@ export default {
           const storeAs =
             "test/sld/userinfo/" +
             obj +
-            "/cooperative/" +
+            "-" +
+            this.phone +
+            "-" +
             obj2 +
             "-" +
             fileName;
@@ -731,11 +744,11 @@ export default {
         }
       );
     },
-    handleExceed3(files, fileList) {
+    handleExceed3(files, fileList3) {
       this.$message.warning(
         `当前限制选择 1 个文件，本次选择了 ${
           files.length
-        } 个文件，共选择了 ${files.length + fileList.length} 个文件`
+        } 个文件，共选择了 ${files.length + fileList3.length} 个文件`
       );
     },
     beforeAvatarUpload3(file) {
@@ -806,7 +819,9 @@ export default {
           const storeAs =
             "test/sld/userinfo/" +
             obj +
-            "/cooperative/" +
+            "-" +
+            this.phone +
+            "-" +
             obj2 +
             "-" +
             fileName;
@@ -855,11 +870,11 @@ export default {
         }
       );
     },
-    handleExceed4(files, fileList) {
+    handleExceed4(files, fileList4) {
       this.$message.warning(
         `当前限制选择 1 个文件，本次选择了 ${
           files.length
-        } 个文件，共选择了 ${files.length + fileList.length} 个文件`
+        } 个文件，共选择了 ${files.length + fileList4.length} 个文件`
       );
     },
     beforeAvatarUpload4(file) {
@@ -930,7 +945,9 @@ export default {
           const storeAs =
             "test/sld/userinfo/" +
             obj +
-            "/cooperative/" +
+            "-" +
+            this.phone +
+            "-" +
             obj2 +
             "-" +
             fileName;
@@ -979,11 +996,11 @@ export default {
         }
       );
     },
-    handleExceed5(files, fileList) {
+    handleExceed5(files, fileList5) {
       this.$message.warning(
         `当前限制选择 1 个文件，本次选择了 ${
           files.length
-        } 个文件，共选择了 ${files.length + fileList.length} 个文件`
+        } 个文件，共选择了 ${files.length + fileList5.length} 个文件`
       );
     },
     beforeAvatarUpload5(file) {
@@ -1054,7 +1071,9 @@ export default {
           const storeAs =
             "test/sld/userinfo/" +
             obj +
-            "/cooperative/" +
+            "-" +
+            this.phone +
+            "-" +
             obj2 +
             "-" +
             fileName;
@@ -1104,11 +1123,11 @@ export default {
         }
       );
     },
-    handleExceed6(files, fileList) {
+    handleExceed6(files, fileList6) {
       this.$message.warning(
         `当前限制选择 1 个文件，本次选择了 ${
           files.length
-        } 个文件，共选择了 ${files.length + fileList.length} 个文件`
+        } 个文件，共选择了 ${files.length + fileList6.length} 个文件`
       );
     },
     beforeAvatarUpload6(file) {
