@@ -439,6 +439,16 @@ var routes = [{
           title: '民盛业务系统'
         }
       },
+      {
+        // 永发管理
+        path: '/yongfaguanli/dataList',
+        name: '数据列表',
+        component: require('../views/yongfaguanli/dataList.vue').default,
+        meta: {
+          auth: true,
+          title: '民盛业务系统'
+        }
+      },
     ],
   },
   //赎楼贷
@@ -468,7 +478,8 @@ var routes = [{
     meta: {
       title: '民盛赎楼贷信息平台'
     }
-  }
+  },
+ 
 ]
 const router = new Router({
   routes

@@ -146,13 +146,31 @@
             <template slot="title">
               <!-- <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-qiyetupu" />
-              </svg> -->
-              <i class="el-icon-document"></i>
+              </svg>-->
+              <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-web-icon-" />
+              </svg>
               <span>赎楼贷管理</span>
             </template>
             <el-menu-item-group>
               <router-link to="/shuloudaiguanli/shuloudai">
                 <el-menu-item index="8-1">赎楼贷列表</el-menu-item>
+              </router-link>
+            </el-menu-item-group>
+          </el-submenu>
+          <el-submenu index="9">
+            <template slot="title">
+              <!-- <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-yonghuguanli" />
+              </svg>-->
+              <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-web-icon-" />
+              </svg>
+              <span>永发管理</span>
+            </template>
+            <el-menu-item-group>
+              <router-link to="/yongfaguanli/dataList">
+                <el-menu-item index="9-1">数据列表</el-menu-item>
               </router-link>
             </el-menu-item-group>
           </el-submenu>
@@ -233,7 +251,7 @@ export default {
   color: #fff;
 }
 .el-submenu__title i {
-  color:#fff;
+  color: #fff;
 }
 .site-title {
   font-size: 24px;
