@@ -78,7 +78,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="放款时间" prop="beginDate">
+              <el-form-item label="放款开始日期" prop="beginDate">
                 <el-date-picker
                   size="mini"
                   v-model="searchform.beginDate"
@@ -130,8 +130,9 @@
           <el-table-column prop="rate" label="贷款年化利率（%）" align="center"></el-table-column>
           <el-table-column prop="timeType" label="期限类别" align="center">
             <template slot-scope="scope">
-              <span v-if="scope.row.timeType == 0">天</span>
-              <span v-if="scope.row.timeType == 1">月</span>
+              <span v-if="scope.row.timeType == '0'">天</span>
+              <span v-if="scope.row.timeType == '1'">月</span>
+              <span v-if="scope.row.timeType == ''"></span>
             </template>
           </el-table-column>
           <el-table-column prop="deadline" label="借款期限" align="center"></el-table-column>
