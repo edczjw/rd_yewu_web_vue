@@ -30,7 +30,7 @@ export default {
   mounted() {
     this.getName();
     //登陆成功提示
-    this.openCenter();
+    // this.openCenter();
     window.addEventListener("scroll", this.returntop, true); // 监听（绑定）滚轮滚动事件
   },
   methods: {

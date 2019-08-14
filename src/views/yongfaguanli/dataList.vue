@@ -9,7 +9,7 @@
           </svg>
         </p>
       </el-tooltip>
-      <p class="left">赎楼贷管理 >> 赎楼贷列表</p>
+      <p class="left">永发管理 >> 数据列表</p>
       <p class="right" @click="goBack">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-shouye" />
@@ -78,13 +78,13 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="申请开始日期" prop="beginDate">
+              <el-form-item label="放款时间" prop="beginDate">
                 <el-date-picker
                   size="mini"
                   v-model="searchform.beginDate"
-                  value-format="yyyy-MM-dd"
-                  type="date"
-                  placeholder="请选择开始日期"
+                  value-format="yyyy-MM-dd HH:mm:ss"
+                  type="datetime"
+                  placeholder="请选择开始时间"
                 ></el-date-picker>
               </el-form-item>
             </el-col>
@@ -93,9 +93,9 @@
                 <el-date-picker
                   size="mini"
                   v-model="searchform.endDate"
-                  value-format="yyyy-MM-dd"
-                  type="date"
-                  placeholder="请选择结束日期"
+                  value-format="yyyy-MM-dd HH:mm:ss"
+                  type="datetime"
+                  placeholder="请选择结束时间"
                 ></el-date-picker>
               </el-form-item>
             </el-col>
@@ -135,7 +135,7 @@
             </template>
           </el-table-column>
           <el-table-column prop="deadline" label="借款期限" align="center"></el-table-column>
-          <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
+          <el-table-column prop="loanTime" label="放款时间" align="center"></el-table-column>
         </el-table>
         <!-- 分页 -->
         <div class="human-pagination">
@@ -259,7 +259,7 @@ export default {
                 this.tableData.push(data);
               });
             }
-            this.count = res.detail.result.total;
+            this.count = res.detail.result.count;
             this.searchform.pageIndex = res.detail.result.pageIndex;
             this.searchform.pageSize = res.detail.result.pageSize;
           } else {
