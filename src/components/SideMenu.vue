@@ -132,6 +132,7 @@
                 <use xlink:href="#icon-peizhi" />
               </svg>
               <span>系统运维</span>
+              
             </template>
             <el-menu-item-group>
               <!-- <router-link to="/yonghuguanli/mimaxiugai">
@@ -234,20 +235,16 @@ export default {
 };
 </script>
 
-<style scoped  lang=less>
+<style scoped lang=less>
 .logo {
   font-size: 20px;
   font-weight: normal;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   width: 100%;
   height: 100px;
-
   text-align: center;
-
   color: #fff;
 }
 .el-submenu__title i {

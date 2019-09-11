@@ -69,7 +69,9 @@
               </span>
             </el-form-item>
           </el-form>
-          <div class="nextbut" @click="next('setForm')">下一步</div>
+          <el-row class="el-row-nextbut">
+            <div class="nextbut" @click="next('setForm')">下一步</div>
+          </el-row>
         </div>
 
         <!-- 影像资料 -->
@@ -86,6 +88,7 @@
                 :on-exceed="handleExceed1"
                 :before-upload="beforeAvatarUpload1"
                 :on-change="handleChange1"
+                :on-remove="handleRemove1"
                 action
               >
                 <img v-if="setForm.idcardFront.length>0" :src="setForm.idcardFront" class="avatar" />
@@ -111,6 +114,7 @@
                 :on-exceed="handleExceed2"
                 :before-upload="beforeAvatarUpload2"
                 :on-change="handleChange2"
+                :on-remove="handleRemove2"
                 action
               >
                 <img v-if="setForm.idcardBack.length>0" :src="setForm.idcardBack" class="avatar" />
@@ -126,19 +130,25 @@
 
           <el-button size="mini" type="primary">业务办理照片</el-button>
           <el-row class="table-row">
-            <el-col :span="4">
+            <el-col :span="24">
               <el-upload
                 class="avatar-uploader"
                 drag
-                :limit="1"
+                :limit="9"
                 :http-request="Upload3"
                 :file-list="fileList3"
                 :on-exceed="handleExceed3"
                 :before-upload="beforeAvatarUpload3"
                 :on-change="handleChange3"
+                :on-remove="handleRemove3"
+                multiple
                 action
               >
-                <img v-if="setForm.businessImg.length>0" :src="setForm.businessImg" class="avatar" />
+                <el-row v-if="setForm.businessImg.length>0">
+                  <el-col v-for="(item,index) in setForm.businessImg" :key="index">
+                    <img :src="item" class="avatar" />
+                  </el-col>
+                </el-row>
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
               <el-progress
@@ -149,24 +159,28 @@
             </el-col>
           </el-row>
           <el-button size="mini" type="primary">借款合同</el-button>
+          <el-tag type="warning" size="mini" style="margin-left:10px;">只能上传jpg格式图片和zip个格式压缩包</el-tag>
           <el-row class="table-row">
             <el-col :span="4">
               <el-upload
                 class="avatar-uploader"
                 drag
-                :limit="1"
+                :limit="9"
                 :http-request="Upload4"
                 :file-list="fileList4"
                 :on-exceed="handleExceed4"
                 :before-upload="beforeAvatarUpload4"
                 :on-change="handleChange4"
+                :on-remove="handleRemove4"
+                multiple
                 action
               >
-                <img
-                  v-if="setForm.loanContractImg.length>0"
-                  :src="setForm.loanContractImg"
-                  class="avatar"
-                />
+                <el-row v-if="setForm.loanContractImg.length>0">
+                  <el-col v-for="(item,index) in setForm.loanContractImg" :key="index">
+                    <img v-if="item.indexOf('jpg')>0" :src="item" class="avatar" />
+                    <span v-else>{{item}}</span>
+                  </el-col>
+                </el-row>
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
               <el-progress
@@ -177,24 +191,28 @@
             </el-col>
           </el-row>
           <el-button size="mini" type="primary">委托合同</el-button>
+          <el-tag type="warning" size="mini" style="margin-left:10px;">只能上传jpg格式图片和zip个格式压缩包</el-tag>
           <el-row class="table-row">
             <el-col :span="4">
               <el-upload
                 class="avatar-uploader"
                 drag
-                :limit="1"
+                :limit="9"
                 :http-request="Upload5"
                 :file-list="fileList5"
                 :on-exceed="handleExceed5"
                 :before-upload="beforeAvatarUpload5"
                 :on-change="handleChange5"
+                :on-remove="handleRemove5"
+                multiple
                 action
               >
-                <img
-                  v-if="setForm.appointmentContractImg.length>0"
-                  :src="setForm.appointmentContractImg"
-                  class="avatar"
-                />
+                <el-row v-if="setForm.appointmentContractImg.length>0">
+                  <el-col v-for="(item,index) in setForm.appointmentContractImg" :key="index">
+                    <img v-if="item.indexOf('jpg')>0" :src="item" class="avatar" />
+                    <span v-else>{{item}}</span>
+                  </el-col>
+                </el-row>
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
               <el-progress
@@ -205,24 +223,28 @@
             </el-col>
           </el-row>
           <el-button size="mini" type="primary">质押合同</el-button>
+          <el-tag type="warning" size="mini" style="margin-left:10px;">只能上传jpg格式图片和zip个格式压缩包</el-tag>
           <el-row class="table-row">
             <el-col :span="4">
               <el-upload
                 class="avatar-uploader"
                 drag
-                :limit="1"
+                :limit="9"
                 :http-request="Upload6"
                 :file-list="fileList6"
                 :on-exceed="handleExceed6"
                 :before-upload="beforeAvatarUpload6"
                 :on-change="handleChange6"
+                :on-remove="handleRemove6"
+                multiple
                 action
               >
-                <img
-                  v-if="setForm.pledgeContractImg.length>0"
-                  :src="setForm.pledgeContractImg"
-                  class="avatar"
-                />
+                <el-row v-if="setForm.pledgeContractImg.length>0">
+                  <el-col v-for="(item,index) in setForm.pledgeContractImg" :key="index">
+                    <img v-if="item.indexOf('jpg')>0" :src="item" class="avatar" />
+                    <span v-else>{{item}}</span>
+                  </el-col>
+                </el-row>
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
               <el-progress
@@ -232,7 +254,10 @@
               ></el-progress>
             </el-col>
           </el-row>
-          <div class="nextbut" @click="next2()">下一步</div>
+          <el-row class="el-row-nextbut">
+            <span class="nextbut" @click="back(1)">上一步</span>
+            <span class="nextbut" @click="next2()">下一步</span>
+          </el-row>
         </div>
 
         <!-- 预览 -->
@@ -270,33 +295,57 @@
 
           <el-row class="imgrow">
             <el-col :span="6">业务办理照片</el-col>
-            <el-col :span="18">
-              <img :src="setForm.businessImg" alt />
+            <el-col :span="18" class="imgrow-col">
+              <img v-for="(item, index) in setForm.businessImg" :src="item" :key="index" alt />
             </el-col>
           </el-row>
 
           <el-row class="imgrow">
             <el-col :span="6">借款合同</el-col>
-            <el-col :span="18">
-              <img :src="setForm.loanContractImg" alt />
+            <el-col :span="18" v-if="setForm.loanContractImg.length>0">
+              <el-col
+                v-for="(item,index) in setForm.loanContractImg"
+                :key="index"
+                class="imgrow-col"
+              >
+                <img v-if="item.indexOf('jpg')>0" :src="item" class="avatar" />
+                <span v-else>{{item}}</span>
+              </el-col>
             </el-col>
           </el-row>
 
           <el-row class="imgrow">
             <el-col :span="6">委托合同</el-col>
-            <el-col :span="18">
-              <img :src="setForm.appointmentContractImg" alt />
+
+            <el-col :span="18" v-if="setForm.appointmentContractImg.length>0">
+              <el-col
+                v-for="(item,index) in setForm.appointmentContractImg"
+                :key="index"
+                class="imgrow-col"
+              >
+                <img v-if="item.indexOf('jpg')>0" :src="item" class="avatar" />
+                <span v-else>{{item}}</span>
+              </el-col>
             </el-col>
           </el-row>
 
           <el-row class="imgrow">
             <el-col :span="6">质押合同</el-col>
-            <el-col :span="18">
-              <img :src="setForm.pledgeContractImg" alt />
+            <el-col :span="18" v-if="setForm.pledgeContractImg.length>0">
+              <el-col
+                v-for="(item,index) in setForm.pledgeContractImg"
+                :key="index"
+                class="imgrow-col"
+              >
+                <img v-if="item.indexOf('jpg')>0" :src="item" class="avatar" />
+                <span v-else>{{item}}</span>
+              </el-col>
             </el-col>
           </el-row>
-
-          <div class="nextbut" @click="next2()">提交</div>
+          <el-row class="el-row-nextbut">
+            <div class="nextbut" @click="back(2)">上一步</div>
+            <div class="nextbut" @click="next2()">提交</div>
+          </el-row>
         </div>
       </el-card>
     </div>
@@ -337,10 +386,10 @@ export default {
         bankid: "",
         idcardFront: "",
         idcardBack: "",
-        businessImg: "",
-        loanContractImg: "",
-        appointmentContractImg: "",
-        pledgeContractImg: ""
+        businessImg: [],
+        loanContractImg: [],
+        appointmentContractImg: [],
+        pledgeContractImg: []
       }
     };
   },
@@ -348,20 +397,23 @@ export default {
     var phone = sessionStorage.getItem("phone");
     this.phone = phone;
     //登陆成功提示
-    this.openCenter();
+    // this.openCenter();
   },
   mounted() {
     window.addEventListener("scroll", this.returntop, true); // 监听（绑定）滚轮滚动事件
   },
   methods: {
+    back(index) {
+      this.action = index;
+    },
     returntop() {
       //返回顶部
-       var htop
-       if(document.documentElement&&document.documentElement.scrollTop){
-            htop=document.documentElement.scrollTop;
-        }else if(document.body){
-            htop=document.body.scrollTop;
-        }
+      var htop;
+      if (document.documentElement && document.documentElement.scrollTop) {
+        htop = document.documentElement.scrollTop;
+      } else if (document.body) {
+        htop = document.body.scrollTop;
+      }
       var dtops = document.getElementById("dtop"); //获取图标
       //判断滚动条滚动长度
       if (htop > 100) {
@@ -416,10 +468,6 @@ export default {
       }).then(
         response => {
           // 向后台发请求 拉取OSS相关配置
-          console.log(response.data.extranet);
-          console.log(response.data.secretId);
-          console.log(response.data.secretKey);
-          console.log(response.data.bucket);
           //后端提供数据
           const client = new OSS({
             region: "oss-cn-shenzhen", // 服务器集群地区
@@ -440,12 +488,11 @@ export default {
 
           //获取企业编号
           // const enterpriseNo = sessionStorage.getItem("enterpriseNo");
-          // console.log('服务器返回的文件url：')
           const storeAs =
             "test/sld/userinfo/" +
-            obj +
-            "-" +
             this.phone +
+            "/" +
+            obj +
             "-" +
             obj2 +
             "-" +
@@ -455,7 +502,6 @@ export default {
             .multipartUpload(storeAs, file.file, {
               progress: function(p) {
                 //获取进度条的值
-                // console.log(p)
                 _that.videoUploadPercent1 = p * 100;
               }
             })
@@ -463,9 +509,7 @@ export default {
               if (res.url != null || res.url != "") {
                 this.setForm.idcardFront =
                   "http://slloan.oss-cn-shenzhen.aliyuncs.com/" + storeAs;
-                console.log(this.setForm.idcardFront);
                 //返回服务器文件url
-                // console.log(res.url)
                 // this.videoFlag1 = false;
                 _that.videoUploadPercent1 = 100;
                 this.$notify({
@@ -481,16 +525,16 @@ export default {
             })
             .catch(err => {
               this.$message.error("上传文件异常:" + err);
-              console.log("上传文件异常：");
-              console.log(err);
             });
           //失败
         },
         //打印
-        response => {
-          console.log(response);
-        }
+        response => {}
       );
+    },
+    handleRemove1(file, fileList) {
+      this.videoFlag1 = false;
+      this.setForm.idcardFront = "";
     },
     handleExceed1(files, fileList1) {
       this.$message.warning(
@@ -534,10 +578,6 @@ export default {
       }).then(
         response => {
           // 向后台发请求 拉取OSS相关配置
-          console.log(response.data.extranet);
-          console.log(response.data.secretId);
-          console.log(response.data.secretKey);
-          console.log(response.data.bucket);
           //后端提供数据
           const client = new OSS({
             region: "oss-cn-shenzhen", // 服务器集群地区
@@ -566,9 +606,9 @@ export default {
 
           const storeAs =
             "test/sld/userinfo/" +
-            obj +
-            "-" +
             this.phone +
+            "/" +
+            obj +
             "-" +
             obj2 +
             "-" +
@@ -579,21 +619,16 @@ export default {
             .multipartUpload(storeAs, file.file, {
               progress: function(p) {
                 //获取进度条的值
-                // console.log(p)
                 _that.videoUploadPercent2 = p * 100;
               }
             })
             .then(res => {
               if (res.url != null || res.url != "") {
-                // console.log('服务器返回的文件url：')
-
                 //返回服务器文件url
-                // console.log(res.url)
                 // this.videoFlag1 = false;
                 _that.videoUploadPercent2 = 100;
                 this.setForm.idcardBack =
                   "http://slloan.oss-cn-shenzhen.aliyuncs.com/" + storeAs;
-                console.log(this.setForm.idcardBack);
                 this.$notify({
                   title: "上传结果",
                   type: "success",
@@ -607,16 +642,16 @@ export default {
             })
             .catch(err => {
               this.$message.error("上传文件异常:" + err);
-              console.log("上传文件异常：");
-              console.log(err);
             });
           //失败
         },
         //打印
-        response => {
-          console.log(response);
-        }
+        response => {}
       );
+    },
+    handleRemove2(file, fileList) {
+      this.videoFlag2 = false;
+      this.setForm.idcardBack = "";
     },
     handleExceed2(files, fileList2) {
       this.$message.warning(
@@ -660,10 +695,6 @@ export default {
       }).then(
         response => {
           // 向后台发请求 拉取OSS相关配置
-          console.log(response.data.extranet);
-          console.log(response.data.secretId);
-          console.log(response.data.secretKey);
-          console.log(response.data.bucket);
           //后端提供数据
           const client = new OSS({
             region: "oss-cn-shenzhen", // 服务器集群地区
@@ -692,9 +723,9 @@ export default {
 
           const storeAs =
             "test/sld/userinfo/" +
-            obj +
-            "-" +
             this.phone +
+            "/" +
+            obj +
             "-" +
             obj2 +
             "-" +
@@ -705,21 +736,17 @@ export default {
             .multipartUpload(storeAs, file.file, {
               progress: function(p) {
                 //获取进度条的值
-                // console.log(p)
                 _that.videoUploadPercent3 = p * 100;
               }
             })
             .then(res => {
               if (res.url != null || res.url != "") {
-                // console.log('服务器返回的文件url：')
-
                 //返回服务器文件url
-                // console.log(res.url)
                 // this.videoFlag1 = false;
                 _that.videoUploadPercent3 = 100;
-                this.setForm.businessImg =
-                  "http://slloan.oss-cn-shenzhen.aliyuncs.com/" + storeAs;
-                console.log(this.setForm.businessImg);
+                this.setForm.businessImg.push(
+                  "http://slloan.oss-cn-shenzhen.aliyuncs.com/" + storeAs
+                );
                 this.$notify({
                   title: "上传结果",
                   type: "success",
@@ -733,36 +760,44 @@ export default {
             })
             .catch(err => {
               this.$message.error("上传文件异常:" + err);
-              console.log("上传文件异常：");
-              console.log(err);
             });
           //失败
         },
         //打印
-        response => {
-          console.log(response);
-        }
+        response => {}
       );
+    },
+    handleRemove3(file, fileList) {
+      var arr = [];
+      arr = this.setForm.businessImg.filter(data => {
+        return data.indexOf(file.name) < 0;
+      });
+      if (arr.length == 0) {
+        this.videoFlag3 = false;
+      }
+      this.setForm.businessImg = arr;
     },
     handleExceed3(files, fileList3) {
       this.$message.warning(
-        `当前限制选择 1 个文件，本次选择了 ${
+        `当前限制选择 9 个文件，本次选择了 ${
           files.length
         } 个文件，共选择了 ${files.length + fileList3.length} 个文件`
       );
     },
     beforeAvatarUpload3(file) {
-      const length = this.fileList3.length <= 2;
+      const length = this.fileList3.length <= 9;
       const isJPG = file.type === "image/jpeg";
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isLt2M = file.size / 1024 / 1024 < 20;
       if (!length) {
-        this.$message.error("此项上传文件数量不得大于1份，上传第2份文件失败！");
+        this.$message.error(
+          "此项上传文件数量不得大于9份，上传第10份文件失败！"
+        );
       }
       if (!isJPG) {
         this.$message.error("上传头像图片只能是 JPG 格式!");
       }
       if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
+        this.$message.error("上传头像图片大小不能超过 20MB!");
       }
       return length && isLt2M && isJPG;
     },
@@ -786,10 +821,6 @@ export default {
       }).then(
         response => {
           // 向后台发请求 拉取OSS相关配置
-          console.log(response.data.extranet);
-          console.log(response.data.secretId);
-          console.log(response.data.secretKey);
-          console.log(response.data.bucket);
           //后端提供数据
           const client = new OSS({
             region: "oss-cn-shenzhen", // 服务器集群地区
@@ -818,34 +849,29 @@ export default {
 
           const storeAs =
             "test/sld/userinfo/" +
-            obj +
-            "-" +
             this.phone +
+            "/" +
+            obj +
             "-" +
             obj2 +
             "-" +
             fileName;
-
           //上传
           client
             .multipartUpload(storeAs, file.file, {
               progress: function(p) {
                 //获取进度条的值
-                // console.log(p)
                 _that.videoUploadPercent4 = p * 100;
               }
             })
             .then(res => {
               if (res.url != null || res.url != "") {
-                // console.log('服务器返回的文件url：')
-
                 //返回服务器文件url
-                // console.log(res.url)
                 // this.videoFlag1 = false;
                 _that.videoUploadPercent4 = 100;
-                this.setForm.loanContractImg =
-                  "http://slloan.oss-cn-shenzhen.aliyuncs.com/" + storeAs;
-                console.log(this.setForm.loanContractImg);
+                this.setForm.loanContractImg.push(
+                  "http://slloan.oss-cn-shenzhen.aliyuncs.com/" + storeAs
+                );
                 this.$notify({
                   title: "上传结果",
                   type: "success",
@@ -859,36 +885,47 @@ export default {
             })
             .catch(err => {
               this.$message.error("上传文件异常:" + err);
-              console.log("上传文件异常：");
-              console.log(err);
             });
           //失败
         },
         //打印
-        response => {
-          console.log(response);
-        }
+        response => {}
       );
+    },
+    handleRemove4(file, fileList) {
+      var arr = [];
+      arr = this.setForm.loanContractImg.filter(data => {
+        return data.indexOf(file.name) < 0;
+      });
+      if (arr.length == 0) {
+        this.videoFlag4 = false;
+      }
+      this.setForm.loanContractImg = arr;
     },
     handleExceed4(files, fileList4) {
       this.$message.warning(
-        `当前限制选择 1 个文件，本次选择了 ${
+        `当前限制选择 9 个文件，本次选择了 ${
           files.length
         } 个文件，共选择了 ${files.length + fileList4.length} 个文件`
       );
     },
     beforeAvatarUpload4(file) {
-      const length = this.fileList4.length <= 2;
-      const isJPG = file.type === "image/jpeg";
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const length = this.fileList4.length <= 9;
+      const isJPG =
+        file.type === "image/jpeg" ||
+        file.type === "application/x-zip-compressed";
+      console.log(file.type);
+      const isLt2M = file.size / 1024 / 1024 < 20;
       if (!length) {
-        this.$message.error("此项上传文件数量不得大于1份，上传第2份文件失败！");
+        this.$message.error(
+          "此项上传文件数量不得大于9份，上传第10份文件失败！"
+        );
       }
       if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
+        this.$message.error("上传图片只能是 JPG 格式!或者是zip格式压缩包");
       }
       if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
+        this.$message.error("上传头像图片大小不能超过 20MB!");
       }
       return length && isLt2M && isJPG;
     },
@@ -912,10 +949,6 @@ export default {
       }).then(
         response => {
           // 向后台发请求 拉取OSS相关配置
-          console.log(response.data.extranet);
-          console.log(response.data.secretId);
-          console.log(response.data.secretKey);
-          console.log(response.data.bucket);
           //后端提供数据
           const client = new OSS({
             region: "oss-cn-shenzhen", // 服务器集群地区
@@ -944,9 +977,9 @@ export default {
 
           const storeAs =
             "test/sld/userinfo/" +
-            obj +
-            "-" +
             this.phone +
+            "/" +
+            obj +
             "-" +
             obj2 +
             "-" +
@@ -957,21 +990,17 @@ export default {
             .multipartUpload(storeAs, file.file, {
               progress: function(p) {
                 //获取进度条的值
-                // console.log(p)
                 _that.videoUploadPercent5 = p * 100;
               }
             })
             .then(res => {
               if (res.url != null || res.url != "") {
-                // console.log('服务器返回的文件url：')
-
                 //返回服务器文件url
-                // console.log(res.url)
                 // this.videoFlag1 = false;
                 _that.videoUploadPercent5 = 100;
-                this.setForm.appointmentContractImg =
-                  "http://slloan.oss-cn-shenzhen.aliyuncs.com/" + storeAs;
-                console.log(this.setForm.appointmentContractImg);
+                this.setForm.appointmentContractImg.push(
+                  "http://slloan.oss-cn-shenzhen.aliyuncs.com/" + storeAs
+                );
                 this.$notify({
                   title: "上传结果",
                   type: "success",
@@ -985,36 +1014,46 @@ export default {
             })
             .catch(err => {
               this.$message.error("上传文件异常:" + err);
-              console.log("上传文件异常：");
-              console.log(err);
             });
           //失败
         },
         //打印
-        response => {
-          console.log(response);
-        }
+        response => {}
       );
+    },
+    handleRemove5(file, fileList) {
+      var arr = [];
+      arr = this.setForm.appointmentContractImg.filter(data => {
+        return data.indexOf(file.name) < 0;
+      });
+      if (arr.length == 0) {
+        this.videoFlag5 = false;
+      }
+      this.setForm.appointmentContractImg = arr;
     },
     handleExceed5(files, fileList5) {
       this.$message.warning(
-        `当前限制选择 1 个文件，本次选择了 ${
+        `当前限制选择 9 个文件，本次选择了 ${
           files.length
         } 个文件，共选择了 ${files.length + fileList5.length} 个文件`
       );
     },
     beforeAvatarUpload5(file) {
-      const length = this.fileList5.length <= 2;
-      const isJPG = file.type === "image/jpeg";
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const length = this.fileList5.length <= 9;
+      const isJPG =
+        file.type === "image/jpeg" ||
+        file.type === "application/x-zip-compressed";
+      const isLt2M = file.size / 1024 / 1024 < 20;
       if (!length) {
-        this.$message.error("此项上传文件数量不得大于1份，上传第2份文件失败！");
+        this.$message.error(
+          "此项上传文件数量不得大于9份，上传第10份文件失败！"
+        );
       }
       if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
+        this.$message.error("上传图片只能是 JPG 格式!或者是zip格式压缩包");
       }
       if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
+        this.$message.error("上传头像图片大小不能超过 20MB!");
       }
       return length && isLt2M && isJPG;
     },
@@ -1038,10 +1077,6 @@ export default {
       }).then(
         response => {
           // 向后台发请求 拉取OSS相关配置
-          console.log(response.data.extranet);
-          console.log(response.data.secretId);
-          console.log(response.data.secretKey);
-          console.log(response.data.bucket);
           //后端提供数据
           const client = new OSS({
             region: "oss-cn-shenzhen", // 服务器集群地区
@@ -1070,9 +1105,9 @@ export default {
 
           const storeAs =
             "test/sld/userinfo/" +
-            obj +
-            "-" +
             this.phone +
+            "/" +
+            obj +
             "-" +
             obj2 +
             "-" +
@@ -1083,21 +1118,17 @@ export default {
             .multipartUpload(storeAs, file.file, {
               progress: function(p) {
                 //获取进度条的值
-                // console.log(p)
                 _that.videoUploadPercent6 = p * 100;
               }
             })
             .then(res => {
               if (res.url != null || res.url != "") {
-                // console.log('服务器返回的文件url：')
-
                 //返回服务器文件url
-                // console.log(res.url)
                 // this.videoFlag1 = false;
                 _that.videoUploadPercent6 = 100;
-                this.setForm.pledgeContractImg =
-                  "http://slloan.oss-cn-shenzhen.aliyuncs.com/" + storeAs;
-                console.log(this.setForm.pledgeContractImg);
+                this.setForm.pledgeContractImg.push(
+                  "http://slloan.oss-cn-shenzhen.aliyuncs.com/" + storeAs
+                );
 
                 this.$notify({
                   title: "上传结果",
@@ -1112,36 +1143,46 @@ export default {
             })
             .catch(err => {
               this.$message.error("上传文件异常:" + err);
-              console.log("上传文件异常：");
-              console.log(err);
             });
           //失败
         },
         //打印
-        response => {
-          console.log(response);
-        }
+        response => {}
       );
+    },
+    handleRemove6(file, fileList) {
+      var arr = [];
+      arr = this.setForm.pledgeContractImg.filter(data => {
+        return data.indexOf(file.name) < 0;
+      });
+      if (arr.length == 0) {
+        this.videoFlag6 = false;
+      }
+      this.setForm.pledgeContractImg = arr;
     },
     handleExceed6(files, fileList6) {
       this.$message.warning(
-        `当前限制选择 1 个文件，本次选择了 ${
+        `当前限制选择 9 个文件，本次选择了 ${
           files.length
         } 个文件，共选择了 ${files.length + fileList6.length} 个文件`
       );
     },
     beforeAvatarUpload6(file) {
-      const length = this.fileList6.length <= 2;
-      const isJPG = file.type === "image/jpeg";
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const length = this.fileList6.length <= 9;
+      const isJPG =
+        file.type === "image/jpeg" ||
+        file.type === "application/x-zip-compressed";
+      const isLt2M = file.size / 1024 / 1024 < 20;
       if (!length) {
-        this.$message.error("此项上传文件数量不得大于1份，上传第2份文件失败！");
+        this.$message.error(
+          "此项上传文件数量不得大于9份，上传第10份文件失败！"
+        );
       }
       if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
+        this.$message.error("上传图片只能是 JPG 格式!或者是zip格式压缩包");
       }
       if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
+        this.$message.error("上传头像图片大小不能超过 20MB!");
       }
       return length && isLt2M && isJPG;
     },
@@ -1190,12 +1231,56 @@ export default {
     },
     next2() {
       if (this.action == 2) {
+        if (this.setForm.idcardFront.length == 0) {
+          this.$message.error({
+            message: "请上传身份证正面照"
+          });
+          return;
+        } else if (this.setForm.idcardBack.length == 0) {
+          this.$message.error({
+            message: "请上传身份证反面照"
+          });
+          return;
+        } else if (this.setForm.businessImg.length == 0) {
+          this.$message.error({
+            message: "请上传业务办理照片"
+          });
+          return;
+        } else if (this.setForm.loanContractImg.length == 0) {
+          this.$message.error({
+            message: "请上传借款合同"
+          });
+          return;
+        } else if (this.setForm.appointmentContractImg.length == 0) {
+          this.$message.error({
+            message: "请上传委托合同"
+          });
+          return;
+        } else if (this.setForm.pledgeContractImg.length == 0) {
+          this.$message.error({
+            message: "请上传质押合同"
+          });
+          return;
+        }
         this.action = 3;
       } else if (this.action == 3) {
+        var data = {
+          name: this.setForm.name,
+          phone: this.setForm.phone,
+          idcard: this.setForm.idcard,
+          bankid: this.setForm.bankid,
+          idcardFront: this.setForm.idcardFront,
+          idcardBack: this.setForm.idcardBack,
+          businessImg: this.setForm.businessImg.join(","),
+          loanContractImg: this.setForm.loanContractImg.join(","),
+          appointmentContractImg: this.setForm.appointmentContractImg.join(","),
+          pledgeContractImg: this.setForm.pledgeContractImg.join(",")
+        };
+
         this.$axios({
           method: "post",
           url: this.$store.state.domain + "/sld/user/pushuserinfo",
-          data: this.setForm
+          data: data
         })
           .then(response => {
             if (response.data.code == 0) {
@@ -1212,10 +1297,10 @@ export default {
                     bankid: "",
                     idcardFront: "",
                     idcardBack: "",
-                    businessImg: "",
-                    loanContractImg: "",
-                    appointmentContractImg: "",
-                    pledgeContractImg: ""
+                    businessImg: [],
+                    loanContractImg: [],
+                    appointmentContractImg: [],
+                    pledgeContractImg: []
                   };
                 }
               });
@@ -1223,9 +1308,7 @@ export default {
               this.$message.error(response.data.msg);
             }
           })
-          .catch(function(error) {
-            console.log(error);
-          });
+          .catch(function(error) {});
       }
     },
     //退出登陆
@@ -1260,7 +1343,6 @@ export default {
             this.action = 3;
           }
         } else {
-          console.log("error submit!!");
           return false;
         }
       });
@@ -1273,6 +1355,10 @@ export default {
 <style lang="less" scoped>
 /deep/ .el-input {
   width: 100% !important;
+}
+/deep/ .el-upload-dragger {
+  // width:100% !important;
+  height: auto;
 }
 .sld-index {
   padding: 80px 0 0;
@@ -1342,7 +1428,8 @@ export default {
     text-align: center;
   }
   .avatar {
-    width: 368px;
+    width: 100%;
+    padding: 10px;
     height: 178px;
     display: block;
   }
@@ -1351,8 +1438,14 @@ export default {
     span {
       font-size: 12px;
     }
+    .el-row-nextbut {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
     .nextbut {
-      width: 60%;
+      display: inline-block;
+      width: 300px;
       padding: 10px;
       text-align: center;
       margin: 0 auto;
@@ -1366,21 +1459,23 @@ export default {
     .imgrow {
       text-align: center;
       border: 1px solid #ccc;
-      border-bottom: none;
-      border-right: none;
       margin-top: 20px;
       margin-bottom: 20px;
       .el-col {
         cursor: pointer;
         text-align: center;
-        border-bottom: 1px solid #ccc;
-        border-right: 1px solid #ccc;
-        height: 240px;
+        // height: 240px;
         line-height: 240px;
 
         img {
           width: 360px;
           height: 240px;
+        }
+      }
+      .imgrow-col {
+        line-height: 30px;
+        img {
+          margin-bottom: 10px;
         }
       }
       .el-col:hover {
@@ -1402,6 +1497,7 @@ export default {
         line-height: 40px;
         text-align: center;
       }
+
       .el-col:hover {
         background: rgb(230, 228, 228);
       }

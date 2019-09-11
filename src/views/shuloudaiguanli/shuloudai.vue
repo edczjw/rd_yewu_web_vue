@@ -107,10 +107,55 @@
             </template>
           </template>
         </el-table-column>
+        <el-table-column prop="pledgeContractImg" label="业务办理照片" align="center">
+          <template slot-scope="scope">
+            <template v-if="scope.row.businessImg">
+              <a
+                v-for="(item, index) in scope.row.businessImg.split(',')"
+                :key="index"
+                :href="item"
+                target="_blank"
+                class="look"
+              >查看</a>
+            </template>
+          </template>
+        </el-table-column>
+        <el-table-column prop="pledgeContractImg" label="借款合同" align="center">
+          <template slot-scope="scope">
+            <template v-if="scope.row.loanContractImg">
+              <a
+                v-for="(item, index) in scope.row.loanContractImg.split(',')"
+                :key="index"
+                :href="item"
+                target="_blank"
+                class="look"
+              >查看</a>
+            </template>
+          </template>
+        </el-table-column>
+           <el-table-column prop="pledgeContractImg" label="委托合同" align="center">
+          <template slot-scope="scope">
+            <template v-if="scope.row.appointmentContractImg">
+              <a
+                v-for="(item, index) in scope.row.appointmentContractImg.split(',')"
+                :key="index"
+                :href="item"
+                target="_blank"
+                class="look"
+              >查看</a>
+            </template>
+          </template>
+        </el-table-column>
         <el-table-column prop="pledgeContractImg" label="质押合同" align="center">
           <template slot-scope="scope">
             <template v-if="scope.row.pledgeContractImg">
-              <a :href="scope.row.pledgeContractImg" target="_blank">查看</a>
+              <a
+                v-for="(item, index) in scope.row.pledgeContractImg.split(',')"
+                :key="index"
+                :href="item"
+                target="_blank"
+                class="look"
+              >查看</a>
             </template>
           </template>
         </el-table-column>
@@ -148,7 +193,7 @@ export default {
       listLoading: false, //加载样式
       //表格数据
       tableData: [],
-      count:0,
+      count: 0,
       searchform: {
         name: "", //姓名
         phone: "", //手机号码
@@ -297,6 +342,9 @@ export default {
 //  导入统一样式less样式
 @import "../users/index.css";
 .human-pagination {
-    margin-top: 30px;
-  }
+  margin-top: 30px;
+}
+.look {
+  margin: 0 10px;
+}
 </style>
