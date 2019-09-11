@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <h1>民盛赎楼贷信息平台</h1>
+    <h1>民盛资金贷信息平台</h1>
     <!-- <p class="phone">遇到问题 ? 可拨打客服电话：010-123456221</p> -->
 
     <el-card class="box-card">

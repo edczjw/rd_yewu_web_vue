@@ -458,7 +458,7 @@ var routes = [{
     name: 'login',
     component: require('../components/sld/login.vue').default,
     meta: {
-      title: '民盛赎楼贷信息平台'
+      title: '民盛资金贷信息平台'
     }
   },
   //赎楼贷注册
@@ -467,7 +467,7 @@ var routes = [{
     name: 'register',
     component: require('../components/sld/register.vue').default,
     meta: {
-      title: '民盛赎楼贷信息平台'
+      title: '民盛资金贷信息平台'
     }
   },
   //赎楼贷展示
@@ -476,7 +476,7 @@ var routes = [{
     name: 'home',
     component: require('../components/sld/index.vue').default,
     meta: {
-      title: '民盛赎楼贷信息平台'
+      title: '民盛资金贷信息平台'
     }
   },
  

@@ -15,7 +15,7 @@
       </span>
     </div>
     <div class="mo">
-      <p>民盛赎楼贷信息平台</p>
+      <p>民盛资金贷信息平台</p>
     </div>
 
     <div class="card">
@@ -380,7 +380,7 @@ export default {
           dangerouslyUseHTMLString: true, //表示提示的是html片段
           message:
             '<svg class="icon" aria-hidden="true"> <use xlink:href="#icon-jiqiren"></use> </svg> ' +
-            "欢迎登陆赎楼贷管理系统！",
+            "欢迎登陆资金贷管理系统！",
           type: "success",
           center: true
         });

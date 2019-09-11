@@ -372,7 +372,7 @@ export default {
   padding: 25px 50px;
   // background: rgb(202, 201, 201);
   .human-table {
-    margin-top: 40px;
+    margin-top: 20px;
   }
   .human-pagination {
     margin-top: 30px;
