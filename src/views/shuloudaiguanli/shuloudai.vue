@@ -50,17 +50,17 @@
         <el-form ref="searchform" :model="searchform" label-width="80px" size="mini">
           <el-row :gutter="30">
             <el-col :span="6">
-              <el-form-item label="姓名" prop="name">
+              <el-form-item label="法人姓名" prop="name">
                 <el-input v-model="searchform.name" clearable></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="手机号" prop="phone">
+              <el-form-item label="法人手机号" prop="phone">
                 <el-input v-model="searchform.phone" clearable></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="身份证" prop="idcard">
+              <el-form-item label="法人身份证" prop="idcard">
                 <el-input v-model="searchform.idcard" clearable></el-input>
               </el-form-item>
             </el-col>
@@ -89,29 +89,17 @@
         element-loading-background="rgba(0, 0, 0, 0.8)"
         style="width: 100%; height:100%;"
       >
-        <el-table-column prop="name" label="姓名" align="center"></el-table-column>
-        <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
-        <el-table-column prop="idcard" label="身份证号码" align="center"></el-table-column>
-        <el-table-column prop="bankid" label="银行卡号" align="center"></el-table-column>
-        <el-table-column prop="idcardFront" label="身份证正面" align="center">
+        <el-table-column prop="name" label="企业名称" align="center"></el-table-column>
+        <el-table-column prop="name" label="统一社会信用代码" align="center"></el-table-column>
+        <el-table-column prop="name" label="法人姓名" align="center"></el-table-column>
+        <el-table-column prop="phone" label="法人手机号" align="center"></el-table-column>
+        <el-table-column prop="idcard" label="法人身份证号码" align="center"></el-table-column>
+        <el-table-column prop="bankid" label="企业对公账户" align="center"></el-table-column>
+        <el-table-column prop="businessLicensePhoto" label="营业执照照片" align="center">
           <template slot-scope="scope">
-            <template v-if="scope.row.idcardFront">
-              <a :href="scope.row.idcardFront" target="_blank">查看</a>
-            </template>
-          </template>
-        </el-table-column>
-        <el-table-column prop="idcardBack" label="身份证反面" align="center">
-          <template slot-scope="scope">
-            <template v-if="scope.row.idcardBack">
-              <a :href="scope.row.idcardBack" target="_blank">查看</a>
-            </template>
-          </template>
-        </el-table-column>
-        <el-table-column prop="pledgeContractImg" label="业务办理照片" align="center">
-          <template slot-scope="scope">
-            <template v-if="scope.row.businessImg">
+            <template v-if="scope.row.businessLicensePhoto">
               <a
-                v-for="(item, index) in scope.row.businessImg.split(',')"
+                v-for="(item, index) in scope.row.businessLicensePhoto.split(',')"
                 :key="index"
                 :href="item"
                 target="_blank"
@@ -120,37 +108,52 @@
             </template>
           </template>
         </el-table-column>
+        <el-table-column prop="licenceOpeningAccounts" label="开户许可证" align="center">
+          <template slot-scope="scope">
+            <template v-if="scope.row.licenceOpeningAccounts">
+              <a
+                v-for="(item, index) in scope.row.licenceOpeningAccounts.split(',')"
+                :key="index"
+                :href="item"
+                target="_blank"
+                class="look"
+              >查看</a>
+            </template>
+          </template>
+        </el-table-column>
+        <el-table-column prop="assuranceShareholderCommitment" label="股东承诺函" align="center">
+          <template slot-scope="scope">
+            <template v-if="scope.row.assuranceShareholderCommitment">
+              <a
+                v-for="(item, index) in scope.row.assuranceShareholderCommitment.split(',')"
+                :key="index"
+                :href="item"
+                target="_blank"
+                class="look"
+              >查看</a>
+            </template>
+          </template>
+        </el-table-column>
+
+        <el-table-column prop="idcardFront" label="法人身份证照" align="center">
+          <template slot-scope="scope">
+            <template v-if="scope.row.idcardFront">
+              <a
+                v-for="(item, index) in scope.row.idcardFront.split(',')"
+                :key="index"
+                :href="item"
+                target="_blank"
+                class="look"
+              >查看</a>
+            </template>
+          </template>
+        </el-table-column>
+        
         <el-table-column prop="pledgeContractImg" label="借款合同" align="center">
           <template slot-scope="scope">
             <template v-if="scope.row.loanContractImg">
               <a
                 v-for="(item, index) in scope.row.loanContractImg.split(',')"
-                :key="index"
-                :href="item"
-                target="_blank"
-                class="look"
-              >查看</a>
-            </template>
-          </template>
-        </el-table-column>
-           <el-table-column prop="pledgeContractImg" label="委托合同" align="center">
-          <template slot-scope="scope">
-            <template v-if="scope.row.appointmentContractImg">
-              <a
-                v-for="(item, index) in scope.row.appointmentContractImg.split(',')"
-                :key="index"
-                :href="item"
-                target="_blank"
-                class="look"
-              >查看</a>
-            </template>
-          </template>
-        </el-table-column>
-        <el-table-column prop="pledgeContractImg" label="质押合同" align="center">
-          <template slot-scope="scope">
-            <template v-if="scope.row.pledgeContractImg">
-              <a
-                v-for="(item, index) in scope.row.pledgeContractImg.split(',')"
                 :key="index"
                 :href="item"
                 target="_blank"

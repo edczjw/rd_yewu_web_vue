@@ -6,11 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         // 
-<<<<<<< HEAD
-        domain: 'https://coo.msxiaodai.com',
-=======
         domain: 'http://dev.coo.msxiaodai.com',
->>>>>>> a0915cb6c4065bedf027923e5fe0395dc92954f9
         nameler: 'null', //设置路由查看权限
         isLeftHiden: false,
         auditor_id: "",

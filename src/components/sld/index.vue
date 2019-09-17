@@ -22,7 +22,7 @@
       <el-card class="card1">
         <div class="step">
           <el-steps :active="this.action" direction="vertical">
-            <el-step title="基本信息" icon="el-icon-edit"></el-step>
+            <el-step title="贷款申请" icon="el-icon-edit"></el-step>
             <el-step title="影像资料" icon="el-icon-upload"></el-step>
             <el-step title="预览提交" icon="el-icon-picture"></el-step>
           </el-steps>
@@ -30,44 +30,69 @@
       </el-card>
       <el-card class="card2">
         <div class="cute-tip">
-          <p v-if="this.action==1? true:false">基本信息</p>
+          <p v-if="this.action==1? true:false">贷款申请</p>
           <p v-if="this.action==2? true:false">影像资料</p>
           <p v-if="this.action==3? true:false">预览提交</p>
         </div>
-        <!-- 基本信息 -->
+        <!-- 贷款申请 -->
         <div v-if="this.action==1? true:false" class="mess">
           <el-form :model="setForm" status-icon ref="setForm" class="demo-ruleForm">
+            <el-form-item prop="companyName" :rules="rules.kong">
+              企业名称
+              <el-input size="small" v-model.trim="setForm.companyName" auto-complete="off"></el-input>
+              <span>
+                <i class="el-icon-info"></i> 请确保企业名称与您所在企业名称保持一致
+              </span>
+            </el-form-item>
+
+            <el-form-item prop="unifiedSocialCreditCode" :rules="rules.kong">
+              统一社会信用代码
+              <el-input size="small" v-model.trim="setForm.unifiedSocialCreditCode" auto-complete="off"></el-input>
+              <span>
+                <i class="el-icon-info"></i> 请确保所填统一社会信用代码真实正确
+              </span>
+            </el-form-item>
+
             <el-form-item prop="name" :rules="rules.kong">
-              姓名
+              法人姓名
               <el-input size="small" v-model.trim="setForm.name" auto-complete="off"></el-input>
               <span>
-                <i class="el-icon-info"></i> 请确保您的姓名与身份证上的信息保持一致
+                <i class="el-icon-info"></i> 请填入真实正确的企业法人姓名
               </span>
             </el-form-item>
 
             <el-form-item prop="phone" :rules="rules.phone">
-              电话
+              法人电话
               <el-input size="small" v-model.trim="setForm.phone"></el-input>
               <span>
-                <i class="el-icon-info"></i> 请确保输入正确格式的手机号码
+                <i class="el-icon-info"></i> 请确保输入正确格式的法人电话
               </span>
             </el-form-item>
 
             <el-form-item prop="idcard" :rules="rules.checkid">
-              身份证号码
+              法人身份证号码
               <el-input size="small" v-model.trim="setForm.idcard"></el-input>
               <span>
                 <i class="el-icon-info"></i> 请确保您的身份证号码与身份证上的信息保持一致
               </span>
             </el-form-item>
 
+            <el-form-item prop="corporateAccount" :rules="rules.kong">
+              开户行名称
+              <el-input size="small" v-model.trim="setForm.corporateAccount"></el-input>
+              <span>
+                <i class="el-icon-info"></i> 请填入真实正确的开户行名称
+              </span>
+            </el-form-item>
+
             <el-form-item prop="bankid" :rules="rules.kong">
-              银行卡号
+              企业对公账户
               <el-input size="small" v-model.trim="setForm.bankid"></el-input>
               <span>
                 <i class="el-icon-info"></i> 请确保输入正确格式的银行卡号
               </span>
             </el-form-item>
+
           </el-form>
           <el-row class="el-row-nextbut">
             <div class="nextbut" @click="next('setForm')">下一步</div>
@@ -76,13 +101,47 @@
 
         <!-- 影像资料 -->
         <div v-if="this.action==2? true:false" class="mess">
-          <el-button size="mini" type="primary">身份证正面照</el-button>
+          <el-button size="mini" type="primary">营业执照照片</el-button>
+          <el-tag type="warning" size="mini" style="margin-left:10px;">只能上传jpg格式图片和zip个格式压缩包</el-tag>
           <el-row class="table-row">
             <el-col :span="4">
               <el-upload
                 class="avatar-uploader"
                 drag
-                :limit="1"
+                :limit="9"
+                :http-request="Uploadbus"
+                :file-list="fileListbus"
+                :on-exceed="handleExceedbus"
+                :before-upload="beforeAvatarUploadbus"
+                :on-change="handleChangebus"
+                :on-remove="handleRemovebus"
+                multiple
+                action
+              >
+              <el-row v-if="setForm.businessLicensePhoto.length>0">
+                  <el-col v-for="(item,index) in setForm.businessLicensePhoto" :key="index">
+                    <img v-if="item.indexOf('jpg')>0" :src="item" class="avatar" />
+                    <span v-else>{{item}}</span>
+                  </el-col>
+                </el-row>
+                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+              <el-progress
+                v-if="videoFlagbus"
+                :percentage="videoUploadPercentbus"
+                style="margin-top:30px;"
+              ></el-progress>
+            </el-col>
+          </el-row>
+          
+          <el-button size="mini" type="primary">法人身份证照</el-button>
+          <el-tag type="warning" size="mini" style="margin-left:10px;">只能上传jpg格式图片和zip个格式压缩包</el-tag>
+          <el-row class="table-row">
+            <el-col :span="4">
+              <el-upload
+                class="avatar-uploader"
+                drag
+                :limit="9"
                 :http-request="Upload1"
                 :file-list="fileList1"
                 :on-exceed="handleExceed1"
@@ -91,8 +150,13 @@
                 :on-remove="handleRemove1"
                 action
               >
-                <img v-if="setForm.idcardFront.length>0" :src="setForm.idcardFront" class="avatar" />
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              <el-row v-if="setForm.idcardFront.length>0">
+                  <el-col v-for="(item,index) in setForm.idcardFront" :key="index">
+                    <img v-if="item.indexOf('jpg')>0" :src="item" class="avatar" />
+                    <span v-else>{{item}}</span>
+                  </el-col>
+                </el-row>
+               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
               <el-progress
                 v-if="videoFlag1"
@@ -102,35 +166,10 @@
             </el-col>
           </el-row>
 
-          <el-button size="mini" type="primary">身份证反面照</el-button>
+          <el-button size="mini" type="primary">开户许可证</el-button>
+          <el-tag type="warning" size="mini" style="margin-left:10px;">只能上传jpg格式图片和zip个格式压缩包</el-tag>
           <el-row class="table-row">
             <el-col :span="4">
-              <el-upload
-                class="avatar-uploader"
-                drag
-                :limit="1"
-                :http-request="Upload2"
-                :file-list="fileList2"
-                :on-exceed="handleExceed2"
-                :before-upload="beforeAvatarUpload2"
-                :on-change="handleChange2"
-                :on-remove="handleRemove2"
-                action
-              >
-                <img v-if="setForm.idcardBack.length>0" :src="setForm.idcardBack" class="avatar" />
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
-              <el-progress
-                v-if="videoFlag2"
-                :percentage="videoUploadPercent2"
-                style="margin-top:30px;"
-              ></el-progress>
-            </el-col>
-          </el-row>
-
-          <el-button size="mini" type="primary">业务办理照片</el-button>
-          <el-row class="table-row">
-            <el-col :span="24">
               <el-upload
                 class="avatar-uploader"
                 drag
@@ -144,9 +183,10 @@
                 multiple
                 action
               >
-                <el-row v-if="setForm.businessImg.length>0">
-                  <el-col v-for="(item,index) in setForm.businessImg" :key="index">
-                    <img :src="item" class="avatar" />
+                <el-row v-if="setForm.licenceOpeningAccounts.length>0">
+                  <el-col v-for="(item,index) in setForm.licenceOpeningAccounts" :key="index">
+                    <img v-if="item.indexOf('jpg')>0" :src="item" class="avatar" />
+                    <span v-else>{{item}}</span>
                   </el-col>
                 </el-row>
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -158,6 +198,7 @@
               ></el-progress>
             </el-col>
           </el-row>
+
           <el-button size="mini" type="primary">借款合同</el-button>
           <el-tag type="warning" size="mini" style="margin-left:10px;">只能上传jpg格式图片和zip个格式压缩包</el-tag>
           <el-row class="table-row">
@@ -190,7 +231,8 @@
               ></el-progress>
             </el-col>
           </el-row>
-          <el-button size="mini" type="primary">委托合同</el-button>
+
+          <el-button size="mini" type="primary">股东承诺保证函</el-button>
           <el-tag type="warning" size="mini" style="margin-left:10px;">只能上传jpg格式图片和zip个格式压缩包</el-tag>
           <el-row class="table-row">
             <el-col :span="4">
@@ -207,8 +249,8 @@
                 multiple
                 action
               >
-                <el-row v-if="setForm.appointmentContractImg.length>0">
-                  <el-col v-for="(item,index) in setForm.appointmentContractImg" :key="index">
+                <el-row v-if="setForm.assuranceShareholderCommitment.length>0">
+                  <el-col v-for="(item,index) in setForm.assuranceShareholderCommitment" :key="index">
                     <img v-if="item.indexOf('jpg')>0" :src="item" class="avatar" />
                     <span v-else>{{item}}</span>
                   </el-col>
@@ -222,38 +264,7 @@
               ></el-progress>
             </el-col>
           </el-row>
-          <el-button size="mini" type="primary">质押合同</el-button>
-          <el-tag type="warning" size="mini" style="margin-left:10px;">只能上传jpg格式图片和zip个格式压缩包</el-tag>
-          <el-row class="table-row">
-            <el-col :span="4">
-              <el-upload
-                class="avatar-uploader"
-                drag
-                :limit="9"
-                :http-request="Upload6"
-                :file-list="fileList6"
-                :on-exceed="handleExceed6"
-                :before-upload="beforeAvatarUpload6"
-                :on-change="handleChange6"
-                :on-remove="handleRemove6"
-                multiple
-                action
-              >
-                <el-row v-if="setForm.pledgeContractImg.length>0">
-                  <el-col v-for="(item,index) in setForm.pledgeContractImg" :key="index">
-                    <img v-if="item.indexOf('jpg')>0" :src="item" class="avatar" />
-                    <span v-else>{{item}}</span>
-                  </el-col>
-                </el-row>
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
-              <el-progress
-                v-if="videoFlag6"
-                :percentage="videoUploadPercent6"
-                style="margin-top:30px;"
-              ></el-progress>
-            </el-col>
-          </el-row>
+
           <el-row class="el-row-nextbut">
             <span class="nextbut" @click="back(1)">上一步</span>
             <span class="nextbut" @click="next2()">下一步</span>
@@ -263,40 +274,89 @@
         <!-- 预览 -->
         <div v-if="this.action==3? true:false" class="mess">
           <el-row class="messrow">
-            <el-col :span="6">姓名</el-col>
+            <el-col :span="6">企业名称</el-col>
+            <el-col :span="18">{{setForm.companyName}}</el-col>
+          </el-row>
+          <el-row class="messrow">
+            <el-col :span="6">统一社会信用代码</el-col>
+            <el-col :span="18">{{setForm.unifiedSocialCreditCode}}</el-col>
+          </el-row>
+
+          <el-row class="messrow">
+            <el-col :span="6">法人姓名</el-col>
             <el-col :span="18">{{setForm.name}}</el-col>
           </el-row>
           <el-row class="messrow">
-            <el-col :span="6">电话号码</el-col>
+            <el-col :span="6">法人电话</el-col>
             <el-col :span="18">{{setForm.phone}}</el-col>
           </el-row>
           <el-row class="messrow">
-            <el-col :span="6">身份证号码</el-col>
+            <el-col :span="6">法人身份证号码</el-col>
             <el-col :span="18">{{setForm.idcard}}</el-col>
           </el-row>
           <el-row class="messrow">
-            <el-col :span="6">银行卡号</el-col>
+            <el-col :span="6">企业对公账户</el-col>
             <el-col :span="18">{{setForm.bankid}}</el-col>
           </el-row>
 
           <el-row class="imgrow">
-            <el-col :span="6">身份证正面照</el-col>
+            <el-col :span="6">营业执照照片</el-col>
             <el-col :span="18">
-              <img :src="setForm.idcardFront" alt />
+              <el-col :span="18" v-if="setForm.businessLicensePhoto.length>0">
+              <el-col
+                v-for="(item,index) in setForm.businessLicensePhoto"
+                :key="index"
+                class="imgrow-col"
+              >
+                <img v-if="item.indexOf('jpg')>0" :src="item" class="avatar" />
+                <span v-else>{{item}}</span>
+              </el-col>
+            </el-col>
             </el-col>
           </el-row>
 
           <el-row class="imgrow">
-            <el-col :span="6">身份证反面照</el-col>
+            <el-col :span="6">法人身份证照片</el-col>
             <el-col :span="18">
-              <img :src="setForm.idcardBack" alt />
+              <el-col :span="18" v-if="setForm.idcardFront.length>0">
+              <el-col
+                v-for="(item,index) in setForm.idcardFront"
+                :key="index"
+                class="imgrow-col"
+              >
+                <img v-if="item.indexOf('jpg')>0" :src="item" class="avatar" />
+                <span v-else>{{item}}</span>
+              </el-col>
+            </el-col>
             </el-col>
           </el-row>
-
           <el-row class="imgrow">
-            <el-col :span="6">业务办理照片</el-col>
+            <el-col :span="6">开户许可证</el-col>
             <el-col :span="18" class="imgrow-col">
-              <img v-for="(item, index) in setForm.businessImg" :src="item" :key="index" alt />
+              <el-col :span="18" v-if="setForm.licenceOpeningAccounts.length>0">
+              <el-col
+                v-for="(item,index) in setForm.licenceOpeningAccounts"
+                :key="index"
+                class="imgrow-col"
+              >
+                <img v-if="item.indexOf('jpg')>0" :src="item" class="avatar" />
+                <span v-else>{{item}}</span>
+              </el-col>
+            </el-col>
+            </el-col>
+          </el-row>
+
+          <el-row class="imgrow">
+            <el-col :span="6">股东承诺保证函</el-col>
+            <el-col :span="18" v-if="setForm.assuranceShareholderCommitment.length>0">
+              <el-col
+                v-for="(item,index) in setForm.assuranceShareholderCommitment"
+                :key="index"
+                class="imgrow-col"
+              >
+                <img v-if="item.indexOf('jpg')>0" :src="item" class="avatar" />
+                <span v-else>{{item}}</span>
+              </el-col>
             </el-col>
           </el-row>
 
@@ -313,38 +373,9 @@
               </el-col>
             </el-col>
           </el-row>
-
-          <el-row class="imgrow">
-            <el-col :span="6">委托合同</el-col>
-
-            <el-col :span="18" v-if="setForm.appointmentContractImg.length>0">
-              <el-col
-                v-for="(item,index) in setForm.appointmentContractImg"
-                :key="index"
-                class="imgrow-col"
-              >
-                <img v-if="item.indexOf('jpg')>0" :src="item" class="avatar" />
-                <span v-else>{{item}}</span>
-              </el-col>
-            </el-col>
-          </el-row>
-
-          <el-row class="imgrow">
-            <el-col :span="6">质押合同</el-col>
-            <el-col :span="18" v-if="setForm.pledgeContractImg.length>0">
-              <el-col
-                v-for="(item,index) in setForm.pledgeContractImg"
-                :key="index"
-                class="imgrow-col"
-              >
-                <img v-if="item.indexOf('jpg')>0" :src="item" class="avatar" />
-                <span v-else>{{item}}</span>
-              </el-col>
-            </el-col>
-          </el-row>
           <el-row class="el-row-nextbut">
             <div class="nextbut" @click="back(2)">上一步</div>
-            <div class="nextbut" @click="next2()">提交</div>
+            <div class="nextbut" @click="next2()">提交申请</div>
           </el-row>
         </div>
       </el-card>
@@ -359,18 +390,21 @@ export default {
   data() {
     return {
       rules,
+      fileListbus:[],
       fileList1: [], //文件容器
       fileList2: [], //文件容器
       fileList3: [], //文件容器
       fileList4: [], //文件容器
       fileList5: [], //文件容器
       fileList6: [], //文件容器
+      videoFlagbus: false, //进度条
       videoFlag1: false, //进度条
       videoFlag2: false, //进度条
       videoFlag3: false, //进度条
       videoFlag4: false, //进度条
       videoFlag5: false, //进度条
       videoFlag6: false, //进度条
+      videoUploadPercentbus: 0,
       videoUploadPercent1: 0,
       videoUploadPercent2: 0,
       videoUploadPercent3: 0,
@@ -380,16 +414,21 @@ export default {
       action: 1,
       phone: "",
       setForm: {
+        companyName:"",
+        unifiedSocialCreditCode:"",
+        corporateAccount:"",
         name: "",
         phone: "",
         idcard: "",
         bankid: "",
-        idcardFront: "",
-        idcardBack: "",
+        idcardFront: [],//
+        businessLicensePhoto:[],//
+        licenceOpeningAccounts:[],
+        assuranceShareholderCommitment:[],
         businessImg: [],
         loanContractImg: [],
         appointmentContractImg: [],
-        pledgeContractImg: []
+        pledgeContractImg: [],
       }
     };
   },
@@ -449,6 +488,127 @@ export default {
       }
     },
 
+//上传身份证正面
+    Uploadbus(file) {
+      var _that = this;
+      this.videoFlagbus = true;
+      const OSS = require("ali-oss");
+      let _self = this;
+      var bucket; //OSS文件名称
+      var region;
+      var extranet;
+      var accessKeyId;
+      var accessKeySecret;
+      // 存储路径，并且给图片改成唯一名字
+
+      this.$axios({
+        method: "post",
+        url: this.$store.state.domain + "/sld/getAliyunOss"
+      }).then(
+        response => {
+          // 向后台发请求 拉取OSS相关配置
+          //后端提供数据
+          const client = new OSS({
+            region: "oss-cn-shenzhen", // 服务器集群地区
+            extranet: response.data.extranet,
+            accessKeyId: response.data.secretId, // OSS帐号
+            accessKeySecret: response.data.secretKey, // OSS 密码
+            bucket: response.data.bucket // 阿里云上存储的 Bucket
+          });
+
+          // this.receivables.push(fileName);
+          var fileName = file.file.name;
+          //时间戳
+          const obj = this.timestamp();
+          //时间戳
+          const obj2 = this.timestamp1();
+          //后缀名
+          const suffix = fileName.substr(fileName.indexOf("."));
+
+          //获取企业编号
+          // const enterpriseNo = sessionStorage.getItem("enterpriseNo");
+          const storeAs =
+            "test/sld/userinfo/" +
+            this.phone +
+            "/" +
+            obj +
+            "-" +
+            obj2 +
+            "-" +
+            fileName;
+          //上传
+          client
+            .multipartUpload(storeAs, file.file, {
+              progress: function(p) {
+                //获取进度条的值
+                _that.videoUploadPercentbus = p * 100;
+              }
+            })
+            .then(res => {
+              if (res.url != null || res.url != "") {
+                //返回服务器文件url
+                // this.videoFlag1 = false;
+                _that.videoUploadPercentbus = 100;
+                this.setForm.businessLicensePhoto.push(
+                  "http://slloan.oss-cn-shenzhen.aliyuncs.com/" + storeAs);
+                this.$notify({
+                  title: "上传结果",
+                  type: "success",
+                  offset: 100,
+                  dangerouslyUseHTMLString: true,
+                  message:
+                    "<strong>" + file.file.name + "文件上传成功！</strong>",
+                  position: "bottom-left"
+                });
+              }
+            })
+            .catch(err => {
+              this.$message.error("上传文件异常:" + err);
+            });
+          //失败
+        },
+        //打印
+        response => {}
+      );
+    },
+    handleRemovebus(file, fileList) {
+      var arr = [];
+      arr = this.setForm.businessLicensePhoto.filter(data => {
+        return data.indexOf(file.name) < 0;
+      });
+      if (arr.length == 0) {
+        this.videoFlagbus = false;
+      }
+      this.setForm.businessLicensePhoto = arr;
+
+    },
+    handleExceedbus(files, fileListbus) {
+      this.$message.warning(
+        `当前限制选择 9 个文件，本次选择了 ${
+          files.length
+        } 个文件，共选择了 ${files.length + fileListbus.length} 个文件`
+      );
+    },
+    beforeAvatarUploadbus(file) {
+      const length = this.fileListbus.length <= 9;
+      const isJPG = file.type === "image/jpeg";
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!length) {
+        this.$message.error("此项上传文件数量不得大于8份，上传第9份文件失败！");
+      }
+      if (!isJPG) {
+        this.$message.error("上传头像图片只能是 JPG 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+      }
+      return length && isLt2M && isJPG;
+    },
+    handleChangebus(file, fileList) {
+      this.fileListbus = fileList.slice(-3);
+    },
+
+
     //上传身份证正面
     Upload1(file) {
       var _that = this;
@@ -507,11 +667,12 @@ export default {
             })
             .then(res => {
               if (res.url != null || res.url != "") {
-                this.setForm.idcardFront =
-                  "http://slloan.oss-cn-shenzhen.aliyuncs.com/" + storeAs;
                 //返回服务器文件url
                 // this.videoFlag1 = false;
                 _that.videoUploadPercent1 = 100;
+                this.setForm.idcardFront.push(
+                  "http://slloan.oss-cn-shenzhen.aliyuncs.com/" + storeAs
+                  );
                 this.$notify({
                   title: "上传结果",
                   type: "success",
@@ -533,22 +694,29 @@ export default {
       );
     },
     handleRemove1(file, fileList) {
-      this.videoFlag1 = false;
-      this.setForm.idcardFront = "";
+      var arr = [];
+      arr = this.setForm.idcardFront.filter(data => {
+        return data.indexOf(file.name) < 0;
+      });
+      if (arr.length == 0) {
+        this.videoFlag1 = false;
+      }
+      this.setForm.idcardFront = arr;
+
     },
     handleExceed1(files, fileList1) {
       this.$message.warning(
-        `当前限制选择 1 个文件，本次选择了 ${
+        `当前限制选择 9 个文件，本次选择了 ${
           files.length
         } 个文件，共选择了 ${files.length + fileList1.length} 个文件`
       );
     },
     beforeAvatarUpload1(file) {
-      const length = this.fileList1.length <= 2;
+      const length = this.fileList1.length <= 9;
       const isJPG = file.type === "image/jpeg";
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (!length) {
-        this.$message.error("此项上传文件数量不得大于1份，上传第2份文件失败！");
+        this.$message.error("此项上传文件数量不得大于8份，上传第9份文件失败！");
       }
       if (!isJPG) {
         this.$message.error("上传头像图片只能是 JPG 格式!");
@@ -561,123 +729,7 @@ export default {
     handleChange1(file, fileList) {
       this.fileList1 = fileList.slice(-3);
     },
-    //上传身份证反面
-    Upload2(file) {
-      var _that = this;
-      this.videoFlag2 = true;
-      const OSS = require("ali-oss");
-      let _self = this;
-      var bucket; //OSS文件名称
-      var region;
-      var extranet;
-      var accessKeyId;
-      var accessKeySecret;
-      this.$axios({
-        method: "post",
-        url: this.$store.state.domain + "/sld/getAliyunOss"
-      }).then(
-        response => {
-          // 向后台发请求 拉取OSS相关配置
-          //后端提供数据
-          const client = new OSS({
-            region: "oss-cn-shenzhen", // 服务器集群地区
-            extranet: response.data.extranet,
-            accessKeyId: response.data.secretId, // OSS帐号
-            accessKeySecret: response.data.secretKey, // OSS 密码
-            bucket: response.data.bucket // 阿里云上存储的 Bucket
-          });
-
-          // 存储路径，并且给图片改成唯一名字
-          var fileName = file.file.name;
-
-          // this.receivables.push(fileName);
-
-          //后缀名
-          const suffix = fileName.substr(fileName.indexOf("."));
-
-          //时间戳
-          const obj = this.timestamp();
-
-          //时间戳
-          const obj2 = this.timestamp1();
-
-          //获取企业编号
-          // const enterpriseNo = sessionStorage.getItem("enterpriseNo");
-
-          const storeAs =
-            "test/sld/userinfo/" +
-            this.phone +
-            "/" +
-            obj +
-            "-" +
-            obj2 +
-            "-" +
-            fileName;
-
-          //上传
-          client
-            .multipartUpload(storeAs, file.file, {
-              progress: function(p) {
-                //获取进度条的值
-                _that.videoUploadPercent2 = p * 100;
-              }
-            })
-            .then(res => {
-              if (res.url != null || res.url != "") {
-                //返回服务器文件url
-                // this.videoFlag1 = false;
-                _that.videoUploadPercent2 = 100;
-                this.setForm.idcardBack =
-                  "http://slloan.oss-cn-shenzhen.aliyuncs.com/" + storeAs;
-                this.$notify({
-                  title: "上传结果",
-                  type: "success",
-                  offset: 100,
-                  dangerouslyUseHTMLString: true,
-                  message:
-                    "<strong>" + file.file.name + "文件上传成功！</strong>",
-                  position: "bottom-left"
-                });
-              }
-            })
-            .catch(err => {
-              this.$message.error("上传文件异常:" + err);
-            });
-          //失败
-        },
-        //打印
-        response => {}
-      );
-    },
-    handleRemove2(file, fileList) {
-      this.videoFlag2 = false;
-      this.setForm.idcardBack = "";
-    },
-    handleExceed2(files, fileList2) {
-      this.$message.warning(
-        `当前限制选择 1 个文件，本次选择了 ${
-          files.length
-        } 个文件，共选择了 ${files.length + fileList2.length} 个文件`
-      );
-    },
-    beforeAvatarUpload2(file) {
-      const length = this.fileList2.length <= 2;
-      const isJPG = file.type === "image/jpeg";
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!length) {
-        this.$message.error("此项上传文件数量不得大于1份，上传第2份文件失败！");
-      }
-      if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
-      }
-      if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
-      }
-      return length && isLt2M && isJPG;
-    },
-    handleChange2(file, fileList) {
-      this.fileList2 = fileList.slice(-3);
-    },
+    
     //业务办理照片
     Upload3(file) {
       var _that = this;
@@ -744,7 +796,7 @@ export default {
                 //返回服务器文件url
                 // this.videoFlag1 = false;
                 _that.videoUploadPercent3 = 100;
-                this.setForm.businessImg.push(
+                this.setForm.licenceOpeningAccounts.push(
                   "http://slloan.oss-cn-shenzhen.aliyuncs.com/" + storeAs
                 );
                 this.$notify({
@@ -914,7 +966,7 @@ export default {
       const isJPG =
         file.type === "image/jpeg" ||
         file.type === "application/x-zip-compressed";
-      console.log(file.type);
+      // console.log(file.type);
       const isLt2M = file.size / 1024 / 1024 < 20;
       if (!length) {
         this.$message.error(
@@ -998,7 +1050,7 @@ export default {
                 //返回服务器文件url
                 // this.videoFlag1 = false;
                 _that.videoUploadPercent5 = 100;
-                this.setForm.appointmentContractImg.push(
+                this.setForm.assuranceShareholderCommitment.push(
                   "http://slloan.oss-cn-shenzhen.aliyuncs.com/" + storeAs
                 );
                 this.$notify({
@@ -1060,135 +1112,6 @@ export default {
     handleChange5(file, fileList) {
       this.fileList5 = fileList.slice(-3);
     },
-    //质押合同照
-    Upload6(file) {
-      var _that = this;
-      this.videoFlag6 = true;
-      const OSS = require("ali-oss");
-      let _self = this;
-      var bucket; //OSS文件名称
-      var region;
-      var extranet;
-      var accessKeyId;
-      var accessKeySecret;
-      this.$axios({
-        method: "post",
-        url: this.$store.state.domain + "/sld/getAliyunOss"
-      }).then(
-        response => {
-          // 向后台发请求 拉取OSS相关配置
-          //后端提供数据
-          const client = new OSS({
-            region: "oss-cn-shenzhen", // 服务器集群地区
-            extranet: response.data.extranet,
-            accessKeyId: response.data.secretId, // OSS帐号
-            accessKeySecret: response.data.secretKey, // OSS 密码
-            bucket: response.data.bucket // 阿里云上存储的 Bucket
-          });
-
-          // 存储路径，并且给图片改成唯一名字
-          var fileName = file.file.name;
-
-          // this.receivables.push(fileName);
-
-          //后缀名
-          const suffix = fileName.substr(fileName.indexOf("."));
-
-          //时间戳
-          const obj = this.timestamp();
-
-          //时间戳
-          const obj2 = this.timestamp1();
-
-          //获取企业编号
-          // const enterpriseNo = sessionStorage.getItem("enterpriseNo");
-
-          const storeAs =
-            "test/sld/userinfo/" +
-            this.phone +
-            "/" +
-            obj +
-            "-" +
-            obj2 +
-            "-" +
-            fileName;
-
-          //上传
-          client
-            .multipartUpload(storeAs, file.file, {
-              progress: function(p) {
-                //获取进度条的值
-                _that.videoUploadPercent6 = p * 100;
-              }
-            })
-            .then(res => {
-              if (res.url != null || res.url != "") {
-                //返回服务器文件url
-                // this.videoFlag1 = false;
-                _that.videoUploadPercent6 = 100;
-                this.setForm.pledgeContractImg.push(
-                  "http://slloan.oss-cn-shenzhen.aliyuncs.com/" + storeAs
-                );
-
-                this.$notify({
-                  title: "上传结果",
-                  type: "success",
-                  offset: 100,
-                  dangerouslyUseHTMLString: true,
-                  message:
-                    "<strong>" + file.file.name + "文件上传成功！</strong>",
-                  position: "bottom-left"
-                });
-              }
-            })
-            .catch(err => {
-              this.$message.error("上传文件异常:" + err);
-            });
-          //失败
-        },
-        //打印
-        response => {}
-      );
-    },
-    handleRemove6(file, fileList) {
-      var arr = [];
-      arr = this.setForm.pledgeContractImg.filter(data => {
-        return data.indexOf(file.name) < 0;
-      });
-      if (arr.length == 0) {
-        this.videoFlag6 = false;
-      }
-      this.setForm.pledgeContractImg = arr;
-    },
-    handleExceed6(files, fileList6) {
-      this.$message.warning(
-        `当前限制选择 9 个文件，本次选择了 ${
-          files.length
-        } 个文件，共选择了 ${files.length + fileList6.length} 个文件`
-      );
-    },
-    beforeAvatarUpload6(file) {
-      const length = this.fileList6.length <= 9;
-      const isJPG =
-        file.type === "image/jpeg" ||
-        file.type === "application/x-zip-compressed";
-      const isLt2M = file.size / 1024 / 1024 < 20;
-      if (!length) {
-        this.$message.error(
-          "此项上传文件数量不得大于9份，上传第10份文件失败！"
-        );
-      }
-      if (!isJPG) {
-        this.$message.error("上传图片只能是 JPG 格式!或者是zip格式压缩包");
-      }
-      if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 20MB!");
-      }
-      return length && isLt2M && isJPG;
-    },
-    handleChange6(file, fileList) {
-      this.fileList6 = fileList.slice(-3);
-    },
     //  时间戳
     timestamp() {
       const time = new Date();
@@ -1233,17 +1156,17 @@ export default {
       if (this.action == 2) {
         if (this.setForm.idcardFront.length == 0) {
           this.$message.error({
-            message: "请上传身份证正面照"
+            message: "请上传身份证照"
           });
           return;
-        } else if (this.setForm.idcardBack.length == 0) {
+        } else if (this.setForm.businessLicensePhoto.length == 0) {
           this.$message.error({
-            message: "请上传身份证反面照"
+            message: "请上传营业执照照片"
           });
           return;
-        } else if (this.setForm.businessImg.length == 0) {
+        } else if (this.setForm.licenceOpeningAccounts.length == 0) {
           this.$message.error({
-            message: "请上传业务办理照片"
+            message: "请上传开户许可证"
           });
           return;
         } else if (this.setForm.loanContractImg.length == 0) {
@@ -1251,26 +1174,26 @@ export default {
             message: "请上传借款合同"
           });
           return;
-        } else if (this.setForm.appointmentContractImg.length == 0) {
+        } else if (this.setForm.assuranceShareholderCommitment.length == 0) {
           this.$message.error({
-            message: "请上传委托合同"
+            message: "请上传股东承诺保证函"
           });
           return;
-        } else if (this.setForm.pledgeContractImg.length == 0) {
-          this.$message.error({
-            message: "请上传质押合同"
-          });
-          return;
-        }
+        } 
         this.action = 3;
       } else if (this.action == 3) {
         var data = {
+          companyName: this.setForm.companyName,
+          unifiedSocialCreditCode: this.setForm.unifiedSocialCreditCode,
+          corporateAccount: this.setForm.corporateAccount,
           name: this.setForm.name,
           phone: this.setForm.phone,
           idcard: this.setForm.idcard,
           bankid: this.setForm.bankid,
-          idcardFront: this.setForm.idcardFront,
-          idcardBack: this.setForm.idcardBack,
+          idcardFront: this.setForm.idcardFront.join(","),
+          businessLicensePhoto: this.setForm.businessLicensePhoto.join(","),
+          licenceOpeningAccounts: this.setForm.licenceOpeningAccounts.join(","),
+          assuranceShareholderCommitment: this.setForm.assuranceShareholderCommitment.join(","),
           businessImg: this.setForm.businessImg.join(","),
           loanContractImg: this.setForm.loanContractImg.join(","),
           appointmentContractImg: this.setForm.appointmentContractImg.join(","),
@@ -1291,12 +1214,17 @@ export default {
                 callback: action => {
                   this.action = 1;
                   this.setForm = {
+                    companyName:"",
+                    unifiedSocialCreditCode:"",
+                    corporateAccount:"",
                     name: "",
                     phone: "",
                     idcard: "",
                     bankid: "",
                     idcardFront: "",
-                    idcardBack: "",
+                    businessLicensePhoto:"",
+                    licenceOpeningAccounts:[],
+                    assuranceShareholderCommitment:[],
                     businessImg: [],
                     loanContractImg: [],
                     appointmentContractImg: [],
@@ -1434,7 +1362,7 @@ export default {
     display: block;
   }
   .mess {
-    padding: 20px 70px;
+    padding: 20px 30px 20px 10px;
     span {
       font-size: 12px;
     }
